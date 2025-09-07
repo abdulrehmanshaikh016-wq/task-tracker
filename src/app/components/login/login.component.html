@@ -1,0 +1,28 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+    <h2>Login</h2>
+
+    <div>
+        <label for="username">Username</label>
+        <input id="username" type="username" formControlName="username" />
+        <div *ngIf="loginUsernameControl?.dirty && loginUsernameControl?.errors" class="error">
+            <span *ngIf="loginUsernameControl?.errors?.['required']">Username is required</span>
+        </div>
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input  id="password" type="password" formControlName="password" />
+        <div *ngIf="loginPasswordControl?.dirty && loginPasswordControl?.errors" class="error">
+            <span *ngIf="loginPasswordControl?.errors?.['required']">Password is required</span>
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="isLoggingInUser">
+      <span *ngIf="!isLoggingInUser">Login</span>
+      <span *ngIf="isLoggingInUser">
+        <i class="fas fa-spinner fa-spin"></i>
+      </span>
+    </button>
+  </form>
+</div>
