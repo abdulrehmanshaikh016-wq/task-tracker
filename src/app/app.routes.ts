@@ -1,5 +1,7 @@
-import { RoutesEnum } from './routes/routes.enum';
 import { ScreenLoaderRoute } from './routes/screen-loader.route';
+import { LoginRoute } from './routes/login.route';
+import { RoutesEnum } from './routes/routes.enum';
+import { HomeRoute } from './routes/home.route';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -8,5 +10,7 @@ export const routes: Routes = [
         pathMatch: 'full',
         redirectTo: RoutesEnum.ScreenLoader // In such cases we will redirect the user to a screen loader page.
     },
-    ScreenLoaderRoute
+    ScreenLoaderRoute,
+    LoginRoute,
+    HomeRoute
 ];

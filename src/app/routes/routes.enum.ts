@@ -1,3 +1,5 @@
 export enum RoutesEnum {
-    ScreenLoader = "ScreenLoader" 
+    ScreenLoader = "ScreenLoader",
+    Login = "Login",
+    Home = "Home"
 };
