@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TasksComponent } from './tasks.component';
 
 describe('TasksComponent', () => {
-  let component: TasksComponent;
-  let fixture: ComponentFixture<TasksComponent>;
+  let tasksComponent: TasksComponent;
+  let tasksFixture: ComponentFixture<TasksComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -11,12 +11,12 @@ describe('TasksComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TasksComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    tasksFixture = TestBed.createComponent(TasksComponent);
+    tasksComponent = tasksFixture.componentInstance;
+    tasksFixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(tasksComponent).toBeTruthy();
   });
 });
