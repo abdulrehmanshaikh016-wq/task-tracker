@@ -1,10 +1,10 @@
 import { LoginFormBuilderService } from '../../utils/login-form-builder/login-form-builder.service';
 import { AbstractControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RoutingService } from '../../services/routing/routing.service';
+import { LoginService } from '../../services/login/login.service';
+import { LoginModel } from '../../models/login-model';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginModel } from '../../models/login-model';
-import { LoginService } from '../../services/login/login.service';
-import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
   selector: 'app-login',
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     const isAuthenticated = await this._loginService.login(loginRequestPayload);
     if (isAuthenticated) {
       // Redirect to dashboard or home page
-      this._routingService.goToHomePage();  
+      this._routingService.goToTasksPage();  
     }
     this._showIsLoggingInUserError(false);
   }

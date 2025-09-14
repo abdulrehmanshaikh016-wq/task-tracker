@@ -1,7 +1,7 @@
 import { ScreenLoaderRoute } from './routes/screen-loader.route';
 import { LoginRoute } from './routes/login.route';
 import { RoutesEnum } from './routes/routes.enum';
-import { HomeRoute } from './routes/home.route';
+import { TasksRoute } from './routes/tasks.route';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -12,5 +12,5 @@ export const routes: Routes = [
     },
     ScreenLoaderRoute,
     LoginRoute,
-    HomeRoute
+    TasksRoute
 ];

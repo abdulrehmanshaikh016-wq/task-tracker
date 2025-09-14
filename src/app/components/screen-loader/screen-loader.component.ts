@@ -39,7 +39,7 @@ export class ScreenLoaderComponent implements OnInit {
 
   private _goToEitherLoginOrHomePage(isUserLoggedIn: boolean) {
     if (isUserLoggedIn) {
-      this._routingService.goToHomePage();
+      this._routingService.goToTasksPage();
     } else {
       this._routingService.goToLoginPage();
     }

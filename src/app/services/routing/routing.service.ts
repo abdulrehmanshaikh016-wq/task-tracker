@@ -12,8 +12,8 @@ export class RoutingService {
     private _router: Router
   ) {}
 
-  goToHomePage() {
-    this._router.navigateByUrl(RoutesEnum.Home);
+  goToTasksPage() {
+    this._router.navigateByUrl(RoutesEnum.Tasks);
   }
 
   goToLoginPage() {
