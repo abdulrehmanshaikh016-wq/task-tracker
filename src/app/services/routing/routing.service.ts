@@ -19,4 +19,8 @@ export class RoutingService {
   goToLoginPage() {
     this._router.navigateByUrl(RoutesEnum.Login);
   }
+
+  goToCreateANewTaskPage() {
+    this._router.navigateByUrl(RoutesEnum.CreateANewTask);
+  }
 }
