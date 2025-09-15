@@ -44,7 +44,8 @@ export class TasksComponent implements OnInit {
     this._routingService.goToCreateANewTaskPage();
   }
 
-  async deleteTask(taskIndex: number) {
-    const response = await this._tasksService.deleteTask(taskIndex);;
+  async deleteTask(taskId: number) {
+    const response = await this._tasksService.deleteTask(taskId);
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
   }
 }
