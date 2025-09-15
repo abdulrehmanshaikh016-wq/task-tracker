@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 
 export class CreateANewTaskComponent implements OnInit {
 
+  isCreatingANewTask: boolean = false;
   createANewTaskForm: FormGroup<CreateANewTaskForm>;
 
   constructor(

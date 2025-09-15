@@ -2,20 +2,31 @@
 <form [formGroup]="createANewTaskForm" (ngSubmit)="onCreateANewTaskSubmit()">
     <h2>Create a New Task</h2>
 
-    <div>
+    <div class="tt-input-container">
       <label for="taskName">Task Name</label>
-      <input id="taskName" type="text" formControlName="taskName" />
+      <input id="taskName" type="text" formControlName="taskName" class="tt-input" />
       <div *ngIf="taskNameControl?.dirty && taskNameControl?.errors" class="error">
         <span *ngIf="taskNameControl?.errors?.['required']">Username is required</span>
       </div>
     </div>
 
-    <div>
+    <div class="tt-input-container">
       <label for="taskDescription">Task Description</label>
-      <input id="taskDescription" type="text" formControlName="taskDescription" />
+      <input id="taskDescription" type="text" formControlName="taskDescription" class="tt-input" />
       <div *ngIf="taskDescriptionControl?.dirty && taskDescriptionControl?.errors" class="error">
         <span *ngIf="taskDescriptionControl?.errors?.['required']">Username is required</span>
       </div>
     </div>
+
+    <button type="submit" [disabled]="isCreatingANewTask" class="form-submit-button">
+      <span>
+        @if (isCreatingANewTask) {
+          <i class="fas fa-spinner fa-spin"></i>
+        }
+        @else {
+          Login
+        }
+      </span>
+  </button>
 </form>
 }
