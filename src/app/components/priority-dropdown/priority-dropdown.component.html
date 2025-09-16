@@ -1,0 +1,8 @@
+<div class="priority-dropdown-container">
+    <label for="priority">Priority:</label>
+    <select id="priority" name="priority" class="priority-dropdown-input">
+        @for (priority of priorities; track $index) {
+            <option [value]="priority">{{priority}}</option>
+        }
+    </select>
+</div>

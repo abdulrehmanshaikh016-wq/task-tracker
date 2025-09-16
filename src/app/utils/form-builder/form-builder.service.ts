@@ -14,8 +14,9 @@ export class FormBuilderService {
 
   createFormForNewTask(): FormGroup<CreateANewTaskForm> {
     return this._formBuilder.group({
-      taskName: new FormControl<string | null>(null, Validators.required),
-      taskDescription: new FormControl<string | null>(null, Validators.required)
+      taskName: new FormControl<string>('', Validators.required),
+      taskDescription: new FormControl<string>('', Validators.required),
+      taskPriority: new FormControl<string>('', Validators.required)
     });
   }
 }

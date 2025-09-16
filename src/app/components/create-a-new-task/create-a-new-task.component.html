@@ -5,18 +5,30 @@
     <div class="tt-input-container">
       <label for="taskName">Task Name</label>
       <input id="taskName" type="text" formControlName="taskName" class="tt-input" />
-      <div *ngIf="taskNameControl?.dirty && taskNameControl?.errors" class="error">
-        <span *ngIf="taskNameControl?.errors?.['required']">Username is required</span>
-      </div>
+      @if (taskNameControl.dirty && taskNameControl.errors) {
+        <div class="error">
+          @if (taskNameControl.errors['required']) {
+            <span>Task Name is required</span>            
+          }
+        </div>
+      }
     </div>
 
     <div class="tt-input-container">
       <label for="taskDescription">Task Description</label>
       <input id="taskDescription" type="text" formControlName="taskDescription" class="tt-input" />
-      <div *ngIf="taskDescriptionControl?.dirty && taskDescriptionControl?.errors" class="error">
-        <span *ngIf="taskDescriptionControl?.errors?.['required']">Username is required</span>
-      </div>
+      @if (taskDescriptionControl.dirty && taskDescriptionControl.errors) {
+        <div class="error">
+          @if (taskDescriptionControl.errors['required']) {
+            <span>Task Description is required</span>            
+          }
+        </div>
+      }
     </div>
+
+    <app-priority-dropdown
+      [control]="taskPriorityControl"
+    />
 
     <button type="submit" [disabled]="isCreatingANewTask" class="form-submit-button">
       <span>
@@ -24,7 +36,7 @@
           <i class="fas fa-spinner fa-spin"></i>
         }
         @else {
-          Login
+          Add a new Task
         }
       </span>
   </button>

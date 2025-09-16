@@ -2,6 +2,7 @@ import { MockTasksList } from '../../../test/mocks/mock-tasks';
 import { TasksApiRoutes } from '../../api/tasks-api-routes';
 import { TasksModel } from '../../models/tasks-model';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environment';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
@@ -17,7 +18,7 @@ export class TasksService {
 
   async getAllTasks(): Promise<TasksModel[]> {
     try {
-      const getAllTasksApiCall = this._http.get<TasksModel[]>(TasksApiRoutes.GetAllTasks);
+      const getAllTasksApiCall = this._http.get<TasksModel[]>(environment.apiUrl + TasksApiRoutes.GetTasks);
 
       return await firstValueFrom(getAllTasksApiCall);
     } catch (error) {
