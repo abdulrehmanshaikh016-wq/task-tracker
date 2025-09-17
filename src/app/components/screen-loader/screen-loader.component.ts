@@ -7,11 +7,14 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-screen-loader',
   templateUrl: './screen-loader.component.html',
-  styleUrl: './screen-loader.component.scss',
+  styleUrls: ['./screen-loader.component.scss'],
   imports: [CommonModule],
 })
 
 export class ScreenLoaderComponent implements OnInit {
+
+  progress: number = 0;
+  statusMessage: string = 'Loading your tasks...';
 
   constructor(
     private _routingService: RoutingService,
@@ -23,18 +26,25 @@ export class ScreenLoaderComponent implements OnInit {
   }
 
   private async _setupScreenLoaderPage() {
-    setTimeout(() => {
-      this._determineWhereToGoNext();
-    }, 3000);
-  }
+    this.simulateProgressIndidicator();
+    // 1st message already set (Loading your tasks...)
 
-  private async _determineWhereToGoNext() {
-    const isUserLoggedIn = await this._checkIfUserIsLoggedIn();
-    this._goToEitherLoginOrHomePage(isUserLoggedIn);
+    // after some time, check login status
+    setTimeout(async () => {
+      this.statusMessage = 'Checking if you are logged in...'; // 2nd message
+      setTimeout(async () => {
+        const isUserLoggedIn = await this._checkIfUserIsLoggedIn();
+
+        this.statusMessage = 'Preparing your experience...'; // 3rd message
+        setTimeout(() => {
+          this._goToEitherLoginOrHomePage(isUserLoggedIn);
+        }, 2000);
+      }, 1700);
+    }, 1500);
   }
 
   private async _checkIfUserIsLoggedIn(): Promise<boolean> {
-    return await  firstValueFrom(this._authService.isLoggedIn());
+    return await firstValueFrom(this._authService.isLoggedIn());
   }
 
   private _goToEitherLoginOrHomePage(isUserLoggedIn: boolean) {
@@ -43,5 +53,16 @@ export class ScreenLoaderComponent implements OnInit {
     } else {
       this._routingService.goToLoginPage();
     }
+  }
+
+  simulateProgressIndidicator() {
+    // Simulate loading progress
+    const interval = setInterval(() => {
+      if (this.progress < 100) {
+        this.progress += 2; // increment speed
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
   }
 }

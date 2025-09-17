@@ -1,4 +1,14 @@
-<div class="loader-overlay">
-  <div class="spinner"></div>
-  <p>Loading...</p>
+<div class="loading-container">
+  <div class="logo">
+    <h1>Task Tracker</h1>
+  </div>
+
+  <div class="progress-wrapper">
+    <div class="progress-bar" [style.width.%]="progress"></div>
+  </div>
+
+  <div class="percentage">{{ progress }}%</div>
+
+  <!-- Status Message -->
+  <div class="status-message">{{ statusMessage }}</div>
 </div>
