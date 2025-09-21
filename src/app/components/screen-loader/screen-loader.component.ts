@@ -43,8 +43,8 @@ export class ScreenLoaderComponent implements OnInit {
     }, 1500);
   }
 
-  private async _checkIfUserIsLoggedIn(): Promise<boolean> {
-    return await firstValueFrom(this._authService.isLoggedIn());
+  private _checkIfUserIsLoggedIn(): boolean {
+    return this._authService.isLoggedIn();
   }
 
   private _goToEitherLoginOrHomePage(isUserLoggedIn: boolean) {

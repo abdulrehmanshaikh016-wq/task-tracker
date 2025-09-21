@@ -1,5 +1,6 @@
 import { CreateANewTaskRoute } from './routes/create-a-new-task-route.route';
 import { ScreenLoaderRoute } from './routes/screen-loader.route';
+import { SignupRoute } from './routes/signup.route';
 import { LoginRoute } from './routes/login.route';
 import { RoutesEnum } from './routes/routes.enum';
 import { TasksRoute } from './routes/tasks.route';
@@ -13,6 +14,7 @@ export const routes: Routes = [
     },
     ScreenLoaderRoute,
     LoginRoute,
+    SignupRoute,
     TasksRoute,
     CreateANewTaskRoute
 ];
