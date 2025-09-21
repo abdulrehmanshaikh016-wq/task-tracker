@@ -1,22 +1,33 @@
-import { LoginModel } from '../../models/login-model';
 import { Injectable } from '@angular/core';
+import { LoginModel } from '../../models/login-model';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { UserModel } from '../../models/user-model';
+import { LocalStorageKeysEnum } from '../../keys/local-storage-keys.enum';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class LoginService {
 
-  constructor() { }
+  constructor(private _localStorageService: LocalStorageService) { }
 
+  /** Returns true if login succeeds, false otherwise */
   async login(loginModel: LoginModel): Promise<boolean> {
-    // Simulate an API call with a delay
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // For demonstration, assume any username/password combination is valid
-        const isAuthenticated: boolean = !!loginModel?.username && !!loginModel?.password;
-        resolve(isAuthenticated);
-      }, 1000); // Simulate a 1 second delay
-    });
+    const storedUsers = this._localStorageService.getItem<UserModel[]>(LocalStorageKeysEnum.ExistingUsers) || [];
+
+    // Check if a user exists with matching username and password
+    const matchedUser = storedUsers.find(user =>
+      user.username === loginModel.username &&
+      user.password === loginModel.password
+    );
+
+    if (matchedUser) {
+      // Optionally, store logged-in user info in localStorage
+      this._localStorageService.setItem(LocalStorageKeysEnum.LoggedInUser, matchedUser);
+      return true;
+    }
+
+    debugger;
+    return false;
   }
 }

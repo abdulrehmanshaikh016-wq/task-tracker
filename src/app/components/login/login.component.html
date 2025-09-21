@@ -7,17 +7,16 @@
   <div class="tt-input-container">
     <label for="username" class="tt-label">Username</label>
     <input id="username" name="username" type="username" formControlName="username" class="tt-input" autocomplete="username" />
-    @if (loginUsernameControl.dirty && loginUsernameControl.errors) {
+    @if (getUsernameError()) {
       <div class="error">
-        @if (loginUsernameControl.errors['required']) {}
-        <span>Username is required</span>
+        <span>{{getUsernameError()}}</span>
       </div>
     }
   </div>
 
   <div class="tt-input-container">
     <label for="password" class="tt-label">Password</label>
-    <input  id="password" name="password" type="password" formControlName="password" class="tt-input" autocomplete="current-password" />
+    <input id="password" name="password" type="password" formControlName="password" class="tt-input" autocomplete="current-password" />
     @if (getPasswordError()) {
       <div class="error">
         <span>{{getPasswordError()}}</span>
@@ -33,6 +32,6 @@
   </button>
 
   <div class="signup-container">
-    Not a user yet? <span class="signup-link">Create an account</span>
+    Not a user yet? <span class="signup-link" (click)="goToSignupPage()">Create an account</span>
   </div>
 </form>

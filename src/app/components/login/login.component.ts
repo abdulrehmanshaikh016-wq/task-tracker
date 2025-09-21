@@ -41,6 +41,10 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls.password;
   }
 
+  getUsernameError(): string | null {
+    return this._loginFormValidator.getUsernameError(this.loginUsernameControl);
+  }
+
   getPasswordError(): string | null {
     return this._loginFormValidator.getPasswordError(this.loginPasswordControl);
   }
@@ -79,5 +83,9 @@ export class LoginComponent implements OnInit {
       username: this.loginUsernameControl?.value,
       password: this.loginPasswordControl?.value
     });
+  }
+
+  goToSignupPage() {
+    this._routingService.goToSignupPage();
   }
 }
