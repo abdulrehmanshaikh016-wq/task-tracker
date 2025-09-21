@@ -1,5 +1,7 @@
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { LocalStorageKeysEnum } from '../../keys/local-storage-keys.enum';
+import { UserModel } from '../../models/user-model';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +9,20 @@ import { Observable, of } from 'rxjs';
 
 export class AuthService {
 
-  constructor() { }
+  constructor(private _localStorageService: LocalStorageService) { }
 
-  isLoggedIn(): Observable<boolean> {
-    // TODO: Replace with real API call to backend
-    return of(false);
+  /** Check if a user is already logged in */
+  isLoggedIn(): boolean {
+    return !!this._localStorageService.getItem<UserModel>(LocalStorageKeysEnum.LoggedInUser);
+  }
+
+  /** Logout the current user */
+  logout(): void {
+    this._localStorageService.removeItem(LocalStorageKeysEnum.LoggedInUser);
+  }
+
+  getLoggedInUserId(): number | null {
+    const loggedInUser = this._localStorageService.getItem<UserModel>(LocalStorageKeysEnum.LoggedInUser);
+    return loggedInUser ? loggedInUser.id : null;
   }
 }
