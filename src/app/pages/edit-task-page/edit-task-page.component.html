@@ -1,0 +1,10 @@
+<div class="edit-task-container">
+  <h2>Edit a Task</h2>
+
+    <app-task-form
+        [taskForm]="editTaskForm"
+        [isSubmitting]="isUpdating"
+        submitButtonText="Update Task"
+        (formSubmit)="handleUpdateTask($event)">
+    </app-task-form>
+</div>

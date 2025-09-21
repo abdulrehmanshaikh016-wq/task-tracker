@@ -1,0 +1,10 @@
+<div class="create-a-new-task-container">
+  <h2>Create a New Task</h2>
+
+  <app-task-form
+    [taskForm]="createTaskForm"
+    [isSubmitting]="isCreating"
+    submitButtonText="Add Task"
+    (formSubmit)="handleCreateTask($event)">
+  </app-task-form>
+</div>
