@@ -10,8 +10,5 @@ export const tasksResolver: ResolveFn<TasksModel[]> = async (route, state) => {
   const tasksService = inject(TasksService);
 
   const authUserId: number | null = authService.getLoggedInUserId();
-
-  if (!authUserId) return [];
-
-  return await tasksService.getAllTasksForUser(authUserId);
+  return await tasksService.getAllTasksForUser(authUserId!);
 };

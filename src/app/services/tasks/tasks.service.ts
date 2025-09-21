@@ -19,31 +19,14 @@ export class TasksService {
     private _http: HttpClient
   ) { }
 
-  async getAllTasks(): Promise<TasksModel[]> {
-    try {
-      const getAllTasksApiCall = this._http.get<TasksModel[]>(environment.apiUrl + TasksApiRoutes.GetTasks);
-
-      // Await the API response
-      const tasks = await firstValueFrom(getAllTasksApiCall);
-
-      // Filter out deleted tasks
-      return tasks.filter(task => task.isDeleted === false);
-    } catch (error) {
-      // console.error('Could not get all tasks', error);
-
-      // Fallback to localStorage or mock tasks
-      const tasks = this.getTasksFromLocalStorageOrStaticMockTasks();
-
-      // Also filter out deleted tasks here
-      return tasks.filter(task => task.isDeleted === false);
-    }
-  }
-
-  getTasksFromLocalStorageOrStaticMockTasks(): TasksModel[] {
+  getTasksFromLocalStorageOrStaticMockTasks(authUserId: number): TasksModel[] {
     const storedTasks = this._localStorageService.getItem<TasksModel[]>(LocalStorageKeysEnum.TasksList);
 
     // Return mock tasks only if undefined or null
     if (storedTasks === null || storedTasks === undefined) {
+      MockTasksList.forEach(element => {
+        element.userId = authUserId;
+      });
       return MockTasksList;
     }
 
@@ -51,7 +34,7 @@ export class TasksService {
     return storedTasks;
   }
 
-  async deleteTask(taskId: number, currentTasksList: TasksModel[]): Promise<TasksModel[]> {
+  async deleteTask(taskId: number, currentTasksList: TasksModel[], authUserId: number): Promise<TasksModel[]> {
     try {
       const taskApiUrlWithTaskId = TasksApiRoutes.DeleteTask.replace('{{taskId}}', taskId.toString());
       const deleteTaskApiCall = this._http.delete(taskApiUrlWithTaskId);
@@ -60,13 +43,13 @@ export class TasksService {
 
       // If API succeeds, remove from local storage if it exists
       let localTasks = this._localStorageService.getItem<TasksModel[]>(LocalStorageKeysEnum.TasksList) ?? [];
-      localTasks = localTasks.filter(task => task.id !== taskId);
+      localTasks = localTasks.filter(task => task.id !== taskId && task.userId === authUserId);
       this.setNewTasksInLocalStorage(localTasks);
 
       return localTasks; // updated list
     } catch (error) {
       // Remove from local storage
-      const newUpdatedList = currentTasksList.filter(task => task.id !== taskId);
+      const newUpdatedList = currentTasksList.filter(task => task.id !== taskId && task.userId === authUserId);
       this._localStorageService.setItem(LocalStorageKeysEnum.TasksList, newUpdatedList);
 
       return newUpdatedList; // return updated list anyway
@@ -75,5 +58,25 @@ export class TasksService {
 
   setNewTasksInLocalStorage(localTasks: TasksModel[]) {
     this._localStorageService.setItem(LocalStorageKeysEnum.TasksList, localTasks);
+  }
+
+  async getAllTasksForUser(authUserId: number): Promise<TasksModel[]> {
+    try {
+      const getAllTasksApiCall = this._http.get<TasksModel[]>(environment.apiUrl + TasksApiRoutes.GetTasks);
+
+      // Await the API response
+      const tasks = await firstValueFrom(getAllTasksApiCall);
+
+      // Filter out deleted tasks
+      return tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
+    } catch (error) {
+      // console.error('Could not get all tasks', error);
+
+      // Fallback to localStorage or mock tasks
+      const tasks = this.getTasksFromLocalStorageOrStaticMockTasks(authUserId);
+
+      // Also filter out deleted tasks here
+      return tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
+    } 
   }
 }

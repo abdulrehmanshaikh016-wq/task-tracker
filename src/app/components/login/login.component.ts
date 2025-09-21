@@ -1,8 +1,10 @@
 import { LoginFormValidatorService } from '../../utils/login-form-validator/login-form-validator.service';
 import { LoginFormBuilderService } from '../../utils/login-form-builder/login-form-builder.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import { LoginService } from '../../services/login/login.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginModel } from '../../models/login-model';
 import { LoginForm } from '../../forms/login-form';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +14,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule]
 })
 
 export class LoginComponent implements OnInit {
@@ -23,6 +25,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private _loginFormBuilderService: LoginFormBuilderService,
     private _loginFormValidator: LoginFormValidatorService,
+    private _snackBarService: SnackBarService,
     private _routingService: RoutingService,
     private _loginService: LoginService
   ) {
@@ -64,17 +67,21 @@ export class LoginComponent implements OnInit {
   }
 
   private async _handleUserLogin() {
-    this._showIsLoggingInUserError(true);
+    this._showUserIsLoggingInLoader(true);
     const loginRequestPayload = this._createLoginRequestPayload();
     const isAuthenticated = await this._loginService.login(loginRequestPayload);
+    
     if (isAuthenticated) {
       // Redirect to dashboard or home page
       this._routingService.goToTasksPage();  
+    } else {
+      this._snackBarService.showInvalidCredentials();
     }
-    this._showIsLoggingInUserError(false);
+
+    this._showUserIsLoggingInLoader(false);
   }
 
-  private _showIsLoggingInUserError(show: boolean): void {
+  private _showUserIsLoggingInLoader(show: boolean): void {
     this.isLoggingInUser = show;
   }
 
