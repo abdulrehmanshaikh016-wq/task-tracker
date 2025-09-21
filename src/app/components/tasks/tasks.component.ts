@@ -1,7 +1,8 @@
 import { RoutingService } from '../../services/routing/routing.service';
 import { TasksService } from '../../services/tasks/tasks.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
 import { TasksModel } from '../../models/tasks-model';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -28,7 +29,8 @@ export class TasksComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _routingService: RoutingService,
-    private _tasksService: TasksService
+    private _tasksService: TasksService,
+    private _authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -54,12 +56,19 @@ export class TasksComponent implements OnInit {
   }
 
   async deleteTask(taskId: number) {
-    const response = await this._tasksService.deleteTask(taskId, this.tasks);
+    const authUserId: number | null = this._authService.getLoggedInUserId();
+    if (!authUserId) return;
+    const response = await this._tasksService.deleteTask(taskId, this.tasks, authUserId);
 
     if (!response) {
       return;
     }
 
     this.tasks = response;
+  }
+
+  logout() {
+    this._authService.logout();
+    this._routingService.goToLoginPage();
   }
 }
