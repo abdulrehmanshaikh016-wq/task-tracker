@@ -3,6 +3,7 @@ import { PriorityDropdownComponent } from "../priority-dropdown/priority-dropdow
 import { FormBuilderService } from '../../utils/form-builder/form-builder.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateANewTaskForm } from '../../forms/create-a-new-task-form';
+import { RoutingService } from '../../services/routing/routing.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,6 +20,7 @@ export class CreateANewTaskComponent implements OnInit {
   createANewTaskForm: FormGroup<CreateANewTaskForm>;
 
   constructor(
+    private _routingService: RoutingService,
     private _formBuilderService: FormBuilderService,
     private _createANewTaskService: CreateANewTaskService
   ) {
@@ -43,17 +45,23 @@ export class CreateANewTaskComponent implements OnInit {
   onCreateANewTaskSubmit() {
     if (!this.createANewTaskForm.valid) {
       this.createANewTaskForm.markAllAsTouched();
-      this.createANewTaskForm.markAsDirty();
+      this.createANewTaskForm.markAllAsDirty();
+      return;
     }
 
     this._handleCreatingANewTask();
   }
 
-  private _handleCreatingANewTask() {
+  private async _handleCreatingANewTask() {
     this._showLoaderForCreatingANewTask();
     const createANewTaskResponse = this._createANewTaskService.createPayloadForNewTask(this.createANewTaskForm);
-    if (createANewTaskResponse) {
-      this._showNotificationForCreatingANewTask();
+
+    if (!createANewTaskResponse) return;
+
+    this._showNotificationForCreatingANewTask();
+    const addTask = await this._createANewTaskService.createANewTask(createANewTaskResponse);
+    if (addTask) {
+      this._routingService.goToTasksPage();
     }
     this._hideLoaderForCreatingANewTask();
   }
@@ -67,6 +75,5 @@ export class CreateANewTaskComponent implements OnInit {
   }
 
   private _showNotificationForCreatingANewTask() {
-
   }
 }

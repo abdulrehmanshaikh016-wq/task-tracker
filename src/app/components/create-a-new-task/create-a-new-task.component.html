@@ -1,5 +1,5 @@
 @if (createANewTaskForm) {
-<form [formGroup]="createANewTaskForm" (ngSubmit)="onCreateANewTaskSubmit()">
+  <form [formGroup]="createANewTaskForm" (ngSubmit)="onCreateANewTaskSubmit()" class="create-a-new-task-container">
     <h2>Create a New Task</h2>
 
     <div class="tt-input-container">
@@ -29,16 +29,23 @@
     <app-priority-dropdown
       [control]="taskPriorityControl"
     />
+    @if (taskPriorityControl.dirty && taskPriorityControl.errors) {
+      <div class="error">
+        @if (taskPriorityControl.errors['required']) {
+          <span>Task Priority is required</span>            
+        }
+      </div>
+    }
 
-    <button type="submit" [disabled]="isCreatingANewTask" class="form-submit-button">
+    <button type="submit" [disabled]="isCreatingANewTask" class="form-submit-button add-task-button">
       <span>
-        @if (isCreatingANewTask) {
-          <i class="fas fa-spinner fa-spin"></i>
-        }
-        @else {
-          Add a new Task
-        }
+      @if (isCreatingANewTask) {
+        <i class="fas fa-spinner fa-spin"></i>
+      }
+      @else {
+        Add a new Task
+      }
       </span>
-  </button>
-</form>
+    </button>
+  </form>
 }
