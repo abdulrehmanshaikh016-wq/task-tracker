@@ -1,12 +1,12 @@
 import { TaskPrioritiesEnum } from '../../enums/task-priorities.enum';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-priority-dropdown',
-  imports: [],
   templateUrl: './priority-dropdown.component.html',
-  styleUrl: './priority-dropdown.component.scss'
+  styleUrl: './priority-dropdown.component.scss',
+  imports: [ReactiveFormsModule]
 })
 
 export class PriorityDropdownComponent {
