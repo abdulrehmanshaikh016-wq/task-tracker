@@ -1,3 +1,28 @@
+.login-form-container{
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
 .login-header {
   text-align: center;
+}
+
+.login-button {
+  margin-top: 1rem;
+}
+
+.signup-container {
+  display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  align-items: center;
+  justify-content: center;
+  text-wrap-mode: wrap;
+  white-space-collapse: break-spaces;
+}
+
+.signup-link {
+  cursor: pointer;
+  color: var(--primary);
+  text-decoration: underline;
 }

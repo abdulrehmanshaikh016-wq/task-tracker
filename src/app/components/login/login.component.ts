@@ -1,8 +1,10 @@
+import { LoginFormValidatorService } from '../../utils/login-form-validator/login-form-validator.service';
 import { LoginFormBuilderService } from '../../utils/login-form-builder/login-form-builder.service';
-import { AbstractControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RoutingService } from '../../services/routing/routing.service';
 import { LoginService } from '../../services/login/login.service';
 import { LoginModel } from '../../models/login-model';
+import { LoginForm } from '../../forms/login-form';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,38 +17,41 @@ import { CommonModule } from '@angular/common';
 
 export class LoginComponent implements OnInit {
 
-  loginForm!: FormGroup;
+  loginForm!: FormGroup<LoginForm>;
   isLoggingInUser: boolean = false;
 
   constructor(
     private _loginFormBuilderService: LoginFormBuilderService,
+    private _loginFormValidator: LoginFormValidatorService,
     private _routingService: RoutingService,
     private _loginService: LoginService
-  ) {}
+  ) {
+    this.loginForm = this._loginFormBuilderService.buildLoginForm();
+  }
 
   ngOnInit(): void {
     this._setupLoginPage();
   }
 
-  get loginUsernameControl(): AbstractControl {
-    return this.loginForm.get('username') as AbstractControl;
+  get loginUsernameControl(): FormControl {
+    return this.loginForm.controls.username;
   }
 
-  get loginPasswordControl(): AbstractControl {
-    return this.loginForm.get('password') as AbstractControl;
+  get loginPasswordControl(): FormControl {
+    return this.loginForm.controls.password;
+  }
+
+  getPasswordError(): string | null {
+    return this._loginFormValidator.getPasswordError(this.loginPasswordControl);
   }
 
   private _setupLoginPage(): void {
-    this.loginForm = this._loginFormBuilderService.buildLoginForm();
   }
 
   async onLoginSubmit() {
     if (!this.loginForm.valid) {
-      // Mark all controls as touched so errors show
-      Object.values(this.loginForm.controls).forEach(control => {
-        control.markAsTouched();
-        control.markAsDirty();
-      });
+      this.loginForm.markAllAsTouched();
+      this.loginForm.markAllAsDirty();
       return;
     }
 
