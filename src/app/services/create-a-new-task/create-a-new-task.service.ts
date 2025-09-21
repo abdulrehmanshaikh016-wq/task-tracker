@@ -20,8 +20,9 @@ export class CreateANewTaskService {
     private _http: HttpClient
   ) {}
 
-  createPayloadForNewTask(createANewTaskForm: FormGroup<CreateANewTaskForm>) {
+  createPayloadForNewTask(createANewTaskForm: FormGroup<CreateANewTaskForm>, authUserId: number) {
     return new CreateANewTaskPayload({
+      userId: authUserId,
       taskName: createANewTaskForm?.controls?.taskName?.value as string,
       taskDescription: createANewTaskForm.controls.taskDescription.value as string,
       taskPriority: createANewTaskForm.controls.taskPriority.value as TaskPrioritiesEnum
@@ -33,11 +34,12 @@ export class CreateANewTaskService {
       await firstValueFrom(this._http.post(TasksApiRoutes.CreateANewTask, createANewTaskPayload));
       return true;
     } catch (error) {
-      const currentTasksInTheSystem = this._tasksService.getTasksFromLocalStorageOrStaticMockTasks();
+      const currentTasksInTheSystem = this._tasksService.getTasksFromLocalStorageOrStaticMockTasks(createANewTaskPayload.userId);
       const newIndexForNewTask = (await currentTasksInTheSystem).length + 1;
       
       const newTask = new TasksModel({
         id: newIndexForNewTask,
+        userId: createANewTaskPayload.userId,
         taskName: createANewTaskPayload.taskName,
         taskDescription: createANewTaskPayload.taskDescription,
         taskPriority: createANewTaskPayload.taskPriority,

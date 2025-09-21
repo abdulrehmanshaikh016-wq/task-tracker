@@ -4,6 +4,7 @@ import { FormBuilderService } from '../../utils/form-builder/form-builder.servic
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateANewTaskForm } from '../../forms/create-a-new-task-form';
 import { RoutingService } from '../../services/routing/routing.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -20,6 +21,7 @@ export class CreateANewTaskComponent implements OnInit {
   createANewTaskForm: FormGroup<CreateANewTaskForm>;
 
   constructor(
+    private _authService: AuthService,
     private _routingService: RoutingService,
     private _formBuilderService: FormBuilderService,
     private _createANewTaskService: CreateANewTaskService
@@ -53,8 +55,15 @@ export class CreateANewTaskComponent implements OnInit {
   }
 
   private async _handleCreatingANewTask() {
+    const authUserId: number | null = this._authService.getLoggedInUserId();
+
+    if (!authUserId) {
+      this._showNotificationForUserIdNotFound();
+      return;
+    }
+
     this._showLoaderForCreatingANewTask();
-    const createANewTaskResponse = this._createANewTaskService.createPayloadForNewTask(this.createANewTaskForm);
+    const createANewTaskResponse = this._createANewTaskService.createPayloadForNewTask(this.createANewTaskForm, authUserId!);
 
     if (!createANewTaskResponse) return;
 
@@ -75,5 +84,9 @@ export class CreateANewTaskComponent implements OnInit {
   }
 
   private _showNotificationForCreatingANewTask() {
+  }
+
+  private _showNotificationForUserIdNotFound() {
+
   }
 }
