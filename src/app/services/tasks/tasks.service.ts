@@ -1,3 +1,5 @@
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { LocalStorageKeysEnum } from '../../keys/local-storage-keys.enum';
 import { MockTasksList } from '../../../test/mocks/mock-tasks';
 import { TasksApiRoutes } from '../../api/tasks-api-routes';
 import { TasksModel } from '../../models/tasks-model';
@@ -13,6 +15,7 @@ import { firstValueFrom } from 'rxjs';
 export class TasksService {
 
   constructor(
+    private _localStorageService: LocalStorageService,
     private _http: HttpClient
   ) { }
 
@@ -20,23 +23,57 @@ export class TasksService {
     try {
       const getAllTasksApiCall = this._http.get<TasksModel[]>(environment.apiUrl + TasksApiRoutes.GetTasks);
 
-      return await firstValueFrom(getAllTasksApiCall);
+      // Await the API response
+      const tasks = await firstValueFrom(getAllTasksApiCall);
+
+      // Filter out deleted tasks
+      return tasks.filter(task => task.isDeleted === false);
     } catch (error) {
-      console.error('Could not get all tasks', error);
-      return MockTasksList;
-      // return [];
+      // console.error('Could not get all tasks', error);
+
+      // Fallback to localStorage or mock tasks
+      const tasks = this.getTasksFromLocalStorageOrStaticMockTasks();
+
+      // Also filter out deleted tasks here
+      return tasks.filter(task => task.isDeleted === false);
     }
   }
 
-  async deleteTask(taskIndex: number) {
-    try {
-      const taskApiUrlWithTaskIndex = TasksApiRoutes.DeleteTask.replace('{{taskIndex}}', taskIndex.toString());
-      const deleteTaskApiCall = this._http.delete(taskApiUrlWithTaskIndex);
-      
-      return await firstValueFrom(deleteTaskApiCall);
-    } catch (error) {
-      console.error('Could not delete task', error);
-      return;
+  getTasksFromLocalStorageOrStaticMockTasks(): TasksModel[] {
+    const storedTasks = this._localStorageService.getItem<TasksModel[]>(LocalStorageKeysEnum.TasksList);
+
+    // Return mock tasks only if undefined or null
+    if (storedTasks === null || storedTasks === undefined) {
+      return MockTasksList;
     }
+
+    // If empty array (or any valid array), just return as is
+    return storedTasks;
+  }
+
+  async deleteTask(taskId: number, currentTasksList: TasksModel[]): Promise<TasksModel[]> {
+    try {
+      const taskApiUrlWithTaskId = TasksApiRoutes.DeleteTask.replace('{{taskId}}', taskId.toString());
+      const deleteTaskApiCall = this._http.delete(taskApiUrlWithTaskId);
+      
+      await firstValueFrom(deleteTaskApiCall);
+
+      // If API succeeds, remove from local storage if it exists
+      let localTasks = this._localStorageService.getItem<TasksModel[]>(LocalStorageKeysEnum.TasksList) ?? [];
+      localTasks = localTasks.filter(task => task.id !== taskId);
+      this.setNewTasksInLocalStorage(localTasks);
+
+      return localTasks; // updated list
+    } catch (error) {
+      // Remove from local storage
+      const newUpdatedList = currentTasksList.filter(task => task.id !== taskId);
+      this._localStorageService.setItem(LocalStorageKeysEnum.TasksList, newUpdatedList);
+
+      return newUpdatedList; // return updated list anyway
+    }
+  }
+
+  setNewTasksInLocalStorage(localTasks: TasksModel[]) {
+    this._localStorageService.setItem(LocalStorageKeysEnum.TasksList, localTasks);
   }
 }

@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
 import { CreateANewTaskPayload } from '../../models/create-a-new-task-payload';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
-import { TasksApiRoutes } from '../../api/tasks-api-routes';
-import { FormGroup } from '@angular/forms';
 import { CreateANewTaskForm } from '../../forms/create-a-new-task-form';
 import { TaskPrioritiesEnum } from '../../enums/task-priorities.enum';
+import { TasksApiRoutes } from '../../api/tasks-api-routes';
+import { TasksModel } from '../../models/tasks-model';
+import { TasksService } from '../tasks/tasks.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ import { TaskPrioritiesEnum } from '../../enums/task-priorities.enum';
 export class CreateANewTaskService {
 
   constructor(
+    private _tasksService: TasksService,
     private _http: HttpClient
   ) {}
 
@@ -27,10 +30,26 @@ export class CreateANewTaskService {
 
   async createANewTask(createANewTaskPayload: CreateANewTaskPayload): Promise<any> {
     try {
-      const createANewTaskApiCall = await firstValueFrom(this._http.post(TasksApiRoutes.CreateANewTask, createANewTaskPayload));
+      await firstValueFrom(this._http.post(TasksApiRoutes.CreateANewTask, createANewTaskPayload));
+      return true;
     } catch (error) {
-      console.error(error);
-      return;
+      const currentTasksInTheSystem = this._tasksService.getTasksFromLocalStorageOrStaticMockTasks();
+      const newIndexForNewTask = (await currentTasksInTheSystem).length + 1;
+      
+      const newTask = new TasksModel({
+        id: newIndexForNewTask,
+        taskName: createANewTaskPayload.taskName,
+        taskDescription: createANewTaskPayload.taskDescription,
+        taskPriority: createANewTaskPayload.taskPriority,
+        isActive: true,
+        isDeleted: false
+      });
+
+      currentTasksInTheSystem.push(newTask);
+
+      this._tasksService.setNewTasksInLocalStorage(currentTasksInTheSystem);
+
+      return true;
     }
   }
 }
