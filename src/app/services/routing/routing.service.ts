@@ -20,6 +20,10 @@ export class RoutingService {
     this._router.navigateByUrl(RoutesEnum.Login);
   }
 
+  goToSignupPage() {
+    this._router.navigateByUrl(RoutesEnum.Signup);
+  }
+
   goToCreateANewTaskPage() {
     this._router.navigateByUrl(RoutesEnum.CreateANewTask);
   }
