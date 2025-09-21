@@ -1,5 +1,5 @@
 export enum TasksApiRoutes {
     GetTasks = "tasks",
-    DeleteTask = "deleteTask/{{taskIndex}}",
+    DeleteTask = "deleteTask/{{taskId}}",
     CreateANewTask = "createANewTask"
 };
