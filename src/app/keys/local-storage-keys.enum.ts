@@ -1,3 +1,5 @@
 export enum LocalStorageKeysEnum {
-    TasksList = "TasksList"
+    TasksList = "TasksList",
+    LoggedInUser = "LoggedInUser",
+    ExistingUsers = "ExistingUsers"
 };
