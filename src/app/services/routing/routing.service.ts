@@ -12,8 +12,8 @@ export class RoutingService {
     private _router: Router
   ) {}
 
-  goToTasksPage() {
-    this._router.navigateByUrl(RoutesEnum.Tasks);
+  goToScreenLoader() {
+    this._router.navigateByUrl(RoutesEnum.ScreenLoader);
   }
 
   goToLoginPage() {
@@ -22,6 +22,10 @@ export class RoutingService {
 
   goToSignupPage() {
     this._router.navigateByUrl(RoutesEnum.Signup);
+  }
+
+  goToTasksPage() {
+    this._router.navigateByUrl(RoutesEnum.Tasks);
   }
 
   goToCreateANewTaskPage() {
