@@ -1,1 +1,42 @@
-<p>signup-form works!</p>
+<form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()" class="signup-form-container">
+    <!-- Hidden username for password managers (optional but recommended) -->
+    <input type="text" name="username" autocomplete="username" style="position:absolute; left:-9999px;" tabindex="-1" />
+
+    <div class="tt-input-container">
+        <label for="username" class="tt-label">Username</label>
+        <input id="username" name="username" type="username" formControlName="username" class="tt-input" autocomplete="username" />
+        @if (signupUsernameControl.dirty && signupUsernameControl.errors) {
+        <div class="error">
+            @if (signupUsernameControl.errors['required']) {}
+            <span>Username is required</span>
+        </div>
+        }
+    </div>
+
+    <app-password-input
+        passwordInputId="password"
+        passwordInputLabel="Password"
+        passwordInputAutocomplete="new-password"
+        [passwordInputControl]="signupPasswordControl"
+        [passwordError]="getPasswordError(signupPasswordControl)"
+    />
+
+    <app-password-input
+        passwordInputId="confirmPassword"
+        passwordInputLabel="Confirm Password"
+        passwordInputAutocomplete="new-password"
+        [passwordInputControl]="signupConfirmPasswordControl"
+        [passwordError]="getConfirmPasswordError(signupConfirmPasswordControl)"
+    />
+
+    <button type="submit" [disabled]="isSigningUpUser" class="form-submit-button signup-button">
+        <span>
+            @if (isSigningUpUser) {
+                <i class="fas fa-spinner fa-spin"></i>
+            }
+            @else {
+                <div>Signup</div>
+            }
+        </span>
+    </button>
+</form>
