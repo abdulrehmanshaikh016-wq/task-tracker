@@ -23,4 +23,8 @@ export class SnackBarService {
   showInvalidCredentials() {
     this.showSnackBar('Your username or password is incorrect', 'Close');
   }
+
+  showMessageForTaskNotFound() {
+    this.showSnackBar('Could not find the task you want to edit', 'Close');
+  }
 }

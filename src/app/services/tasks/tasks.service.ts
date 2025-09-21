@@ -77,6 +77,20 @@ export class TasksService {
 
       // Also filter out deleted tasks here
       return tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
-    } 
+    }
+  }
+
+  /** Get a single task by ID for a given user */
+  getTaskById(taskId: number, authUserId: number): TasksModel | null {
+    // First, get tasks from local storage or mock
+    const tasks = this.getTasksFromLocalStorageOrStaticMockTasks(authUserId);
+
+    // Filter out deleted tasks
+    const activeTasks = tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
+
+    // Find task by ID
+    const task = activeTasks.find(t => t.id === taskId) ?? null;
+
+    return task;
   }
 }

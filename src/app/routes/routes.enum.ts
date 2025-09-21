@@ -3,5 +3,6 @@ export enum RoutesEnum {
     Login = "Login",
     Signup = "Signup",
     Tasks = "Tasks",
-    CreateANewTask = "CreateANewTask"
+    CreateANewTask = "CreateANewTask",
+    EditTask = "EditTask/:taskid"
 };

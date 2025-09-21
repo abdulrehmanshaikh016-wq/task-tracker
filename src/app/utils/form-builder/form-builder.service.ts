@@ -1,4 +1,4 @@
-import { CreateANewTaskForm } from '../../forms/create-a-new-task-form';
+import { TaskFormGroup } from '../../forms/create-a-new-task-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
@@ -12,7 +12,7 @@ export class FormBuilderService {
     private _formBuilder: FormBuilder
   ) { }
 
-  createFormForNewTask(): FormGroup<CreateANewTaskForm> {
+  createFormForNewTask(): FormGroup<TaskFormGroup> {
     return this._formBuilder.group({
       taskName: new FormControl<string>('', Validators.required),
       taskDescription: new FormControl<string>('', Validators.required),

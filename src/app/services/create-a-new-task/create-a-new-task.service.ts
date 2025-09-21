@@ -1,6 +1,6 @@
 import { CreateANewTaskPayload } from '../../models/create-a-new-task-payload';
-import { CreateANewTaskForm } from '../../forms/create-a-new-task-form';
 import { TaskPrioritiesEnum } from '../../enums/task-priorities.enum';
+import { TaskFormGroup } from '../../forms/create-a-new-task-form';
 import { TasksApiRoutes } from '../../api/tasks-api-routes';
 import { TasksModel } from '../../models/tasks-model';
 import { TasksService } from '../tasks/tasks.service';
@@ -20,7 +20,7 @@ export class CreateANewTaskService {
     private _http: HttpClient
   ) {}
 
-  createPayloadForNewTask(createANewTaskForm: FormGroup<CreateANewTaskForm>, authUserId: number) {
+  createPayloadForNewTask(createANewTaskForm: FormGroup<TaskFormGroup>, authUserId: number) {
     return new CreateANewTaskPayload({
       userId: authUserId,
       taskName: createANewTaskForm?.controls?.taskName?.value as string,
@@ -51,6 +51,29 @@ export class CreateANewTaskService {
 
       this._tasksService.setNewTasksInLocalStorage(currentTasksInTheSystem);
 
+      return true;
+    }
+  }
+
+  /** Update an existing task */
+  async updateTask(taskId: number, createANewTaskPayload: CreateANewTaskPayload): Promise<boolean> {
+    try {
+      const updateUrl = TasksApiRoutes.UpdateTask.replace('{{taskId}}', taskId.toString());
+      await firstValueFrom(this._http.put(updateUrl, createANewTaskPayload));
+      return true;
+    } catch (error) {
+      // Fallback to local storage
+      const currentTasksInTheSystem = await this._tasksService.getTasksFromLocalStorageOrStaticMockTasks(createANewTaskPayload.userId);
+      const taskIndex = currentTasksInTheSystem.findIndex(t => t.id === taskId);
+      if (taskIndex !== -1) {
+        currentTasksInTheSystem[taskIndex] = {
+          ...currentTasksInTheSystem[taskIndex],
+          taskName: createANewTaskPayload.taskName,
+          taskDescription: createANewTaskPayload.taskDescription,
+          taskPriority: createANewTaskPayload.taskPriority
+        };
+        this._tasksService.setNewTasksInLocalStorage(currentTasksInTheSystem);
+      }
       return true;
     }
   }

@@ -31,4 +31,9 @@ export class RoutingService {
   goToCreateANewTaskPage() {
     this._router.navigateByUrl(RoutesEnum.CreateANewTask);
   }
+
+  goToEditTaskPage(taskId: number) {
+    const editTaskRouteWithTaskId = RoutesEnum.EditTask.replace(':taskid', taskId.toString());
+    this._router.navigateByUrl(editTaskRouteWithTaskId);
+  }
 }
