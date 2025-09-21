@@ -1,9 +1,9 @@
+import { RoutingService } from '../../services/routing/routing.service';
 import { TasksService } from '../../services/tasks/tasks.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { TasksModel } from '../../models/tasks-model';
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
   selector: 'app-tasks',
@@ -13,6 +13,15 @@ import { RoutingService } from '../../services/routing/routing.service';
 })
 
 export class TasksComponent implements OnInit {
+
+  columns = [
+    { field: 'id', header: 'ID' },
+    { field: 'taskName', header: 'Task Name' },
+    { field: 'taskDescription', header: 'Description' },
+    { field: 'isActive', header: 'Active' },
+    { field: 'isDeleted', header: 'Deleted' },
+    { field: 'taskPriority', header: 'Priority' }
+  ];
 
   tasks: TasksModel[] = [];
 
@@ -45,7 +54,12 @@ export class TasksComponent implements OnInit {
   }
 
   async deleteTask(taskId: number) {
-    const response = await this._tasksService.deleteTask(taskId);
-    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    const response = await this._tasksService.deleteTask(taskId, this.tasks);
+
+    if (!response) {
+      return;
+    }
+
+    this.tasks = response;
   }
 }
