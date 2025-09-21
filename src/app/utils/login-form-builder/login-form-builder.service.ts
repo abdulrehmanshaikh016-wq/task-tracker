@@ -1,5 +1,7 @@
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { passwordValidator } from '../../validators/password-validator';
+import { LoginForm } from '../../forms/login-form';
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,10 @@ export class LoginFormBuilderService {
     private _formBuilder: FormBuilder
   ) { }
 
-  buildLoginForm(): FormGroup {
+  buildLoginForm(): FormGroup<LoginForm> {
     return this._formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: new FormControl<string | null>('', Validators.required),
+      password: new FormControl<string | null>('', passwordValidator)
     });
   }
 }
