@@ -1,0 +1,74 @@
+.manage-task-members-container {
+  height: 100%;
+  padding: 1rem;
+}
+
+.header {
+  margin: 0;
+  color: white;
+  font-size: 16px;
+  padding: 0.75rem;
+  text-align: center;
+  background-color: var(--primary);
+}
+
+.task-name-container {
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+.task-name-text {
+  margin-right: 8px;
+}
+
+.task-members-list-container {
+  padding-bottom: 1rem;
+}
+
+.task-member-item {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  transition: background-color 0.2s;
+}
+
+.task-member-item:last-child {
+  border: none;
+}
+
+.task-member-item:hover {
+  background-color: #f0f0f0;
+}
+
+.task-member-label {
+  font-size: 16px;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  padding: 0;
+}
+
+th.mat-header-cell, td.mat-cell {
+  text-align: left;
+  word-break: break-word;
+}
+
+td {
+  padding: 0;
+}
+
+tr.mat-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.delete-icon-button {
+  padding: 0;
+  font-size: 16px;
+}

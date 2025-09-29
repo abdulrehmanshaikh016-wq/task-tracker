@@ -1,0 +1,51 @@
+<h3 class="header">Manage Task Members</h3>
+<div class="manage-task-members-container">
+  <div class="task-name-container">
+    <span class="task-name-text">
+    @if (task) {
+      <b>Task Name:</b> {{task.taskName}}
+    } @else {
+      No Task found. Please select a valid task
+    }
+    </span>
+  </div>
+
+  <app-user-search
+    [users]="allUsersFromStorage"
+    (userSelected)="addMemberInTask($event)"
+  />
+
+  @if (members && members.length > 0) {
+    <div class="mat-elevation-z2">
+      <table mat-table [dataSource]="members" class="mat-table">
+        <!-- Header And Row Data definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- username Column -->
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Username</th>
+          <td mat-cell *matCellDef="let member"> {{member.username}} </td>
+        </ng-container>
+                      
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef>Delete</th>
+          <td mat-cell *matCellDef="let user">
+            @if (user.showDeleteLoader) {
+              <button mat-icon-button title="Deleting..." class="delete-icon-button">
+                <i class="fa fa-spinner fa-spin fa-lg primary"></i>
+              </button>
+            } @else {
+              <button mat-icon-button (click)="removeMember(user)" title="Delete" class="delete-icon-button">
+                <i class="fas fa-times fa-lg primary"></i>
+              </button>
+            }
+          </td>
+        </ng-container>
+      </table>
+    </div>
+  } @else {
+    <div class="no-task-members">No Members found</div>
+  }
+</div>
