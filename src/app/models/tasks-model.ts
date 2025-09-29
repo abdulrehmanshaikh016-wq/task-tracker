@@ -8,6 +8,7 @@ export class TasksModel implements ITasks {
     isActive: boolean;
     isDeleted: boolean;
     taskPriority: TaskPrioritiesEnum;
+    taskDuration: number;
 
     constructor(tasks: ITasks) {
         this.id = tasks.id;
@@ -17,6 +18,7 @@ export class TasksModel implements ITasks {
         this.isActive = tasks.isActive;
         this.isDeleted = tasks.isDeleted;
         this.taskPriority = tasks.taskPriority;
+        this.taskDuration = tasks.taskDuration;
     }
 };
 
@@ -28,4 +30,5 @@ interface ITasks {
     isActive: boolean;
     isDeleted: boolean;
     taskPriority: TaskPrioritiesEnum;
+    taskDuration: number;
 }

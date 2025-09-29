@@ -16,7 +16,8 @@ export class FormBuilderService {
     return this._formBuilder.group({
       taskName: new FormControl<string>('', Validators.required),
       taskDescription: new FormControl<string>('', Validators.required),
-      taskPriority: new FormControl<string>('', Validators.required)
+      taskPriority: new FormControl<string>('', Validators.required),
+      taskDuration: new FormControl<number>(0, [Validators.required, Validators.min(0)])
     });
   }
 }

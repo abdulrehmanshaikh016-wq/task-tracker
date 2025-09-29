@@ -5,12 +5,14 @@ export class CreateANewTaskPayload implements ICreateANewTaskPayload {
     taskName: string;
     taskDescription: string;
     taskPriority: TaskPrioritiesEnum;
+    taskDuration: number;
 
     constructor(createANewTaskPayload: ICreateANewTaskPayload) {
         this.userId = createANewTaskPayload.userId;
         this.taskName = createANewTaskPayload.taskName;
         this.taskDescription = createANewTaskPayload.taskDescription;
         this.taskPriority = createANewTaskPayload.taskPriority;
+        this.taskDuration = createANewTaskPayload.taskDuration;
     }
 }
 
@@ -19,4 +21,5 @@ interface ICreateANewTaskPayload {
     taskName: string;
     taskDescription: string;
     taskPriority: TaskPrioritiesEnum;
+    taskDuration: number;
 };

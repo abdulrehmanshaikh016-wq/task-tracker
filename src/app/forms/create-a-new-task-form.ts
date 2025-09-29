@@ -4,4 +4,5 @@ export interface TaskFormGroup {
   taskName: FormControl<string | null>;
   taskDescription: FormControl<string | null>;
   taskPriority: FormControl<string | null>;
+  taskDuration: FormControl<number | null>;
 };

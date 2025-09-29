@@ -25,7 +25,8 @@ export class CreateANewTaskService {
       userId: authUserId,
       taskName: createANewTaskForm?.controls?.taskName?.value as string,
       taskDescription: createANewTaskForm.controls.taskDescription.value as string,
-      taskPriority: createANewTaskForm.controls.taskPriority.value as TaskPrioritiesEnum
+      taskPriority: createANewTaskForm.controls.taskPriority.value as TaskPrioritiesEnum,
+      taskDuration: createANewTaskForm.controls.taskDuration.value as number
     });
   }
 
@@ -44,7 +45,8 @@ export class CreateANewTaskService {
         taskDescription: createANewTaskPayload.taskDescription,
         taskPriority: createANewTaskPayload.taskPriority,
         isActive: true,
-        isDeleted: false
+        isDeleted: false,
+        taskDuration: createANewTaskPayload.taskDuration
       });
 
       currentTasksInTheSystem.push(newTask);

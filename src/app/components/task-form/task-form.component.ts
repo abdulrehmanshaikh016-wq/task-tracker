@@ -22,6 +22,7 @@ export class TaskFormComponent {
   get taskNameControl(): FormControl { return this.taskForm.controls.taskName as FormControl; }
   get taskDescriptionControl(): FormControl { return this.taskForm.controls.taskDescription as FormControl; }
   get taskPriorityControl(): FormControl { return this.taskForm.controls.taskPriority as FormControl; }
+  get taskDurationControl(): FormControl { return this.taskForm.controls.taskDuration as FormControl; }
 
   onSubmit() {
     if (!this.taskForm.valid) {

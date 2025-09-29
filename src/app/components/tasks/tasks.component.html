@@ -16,6 +16,7 @@
         <th>Task Name</th>
         <th>Description</th>
         <th>Priority</th>
+        <th>Task Duration</th>
         <!-- <th>Active</th> -->
         <th>Delete Task</th>
         <th>Edit Task</th>
@@ -38,6 +39,8 @@
             : 'priority-not-found'
           "
         >{{ task.taskPriority }}</td>
+
+        <td>{{ task.taskDuration }} Hours</td>
 
         <!-- isActive as icon -->
         <!-- <td>
