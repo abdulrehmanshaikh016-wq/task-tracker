@@ -2,6 +2,7 @@ import { CreateANewTaskService } from '../../services/create-a-new-task/create-a
 import { TaskFormComponent } from '../../components/task-form/task-form.component';
 import { FormBuilderService } from '../../utils/form-builder/form-builder.service';
 import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
+import { HeaderComponent } from "../../components/header/header.component";
 import { RoutingService } from '../../services/routing/routing.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth/auth.service';
@@ -12,7 +13,7 @@ import { FormGroup } from '@angular/forms';
   selector: 'app-create-a-new-task',
   templateUrl: './create-a-new-task.component.html',
   styleUrl: './create-a-new-task.component.scss',
-  imports: [TaskFormComponent, MatSnackBarModule],
+  imports: [TaskFormComponent, MatSnackBarModule, HeaderComponent],
 })
 
 export class CreateANewTaskComponent implements OnInit, OnDestroy {

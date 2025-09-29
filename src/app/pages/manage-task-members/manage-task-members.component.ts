@@ -1,5 +1,8 @@
 import { UserSearchComponent } from "../../components/user-search/user-search.component";
 import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
+import { HeaderComponent } from "../../components/header/header.component";
+import { TasksService } from "../../services/tasks/tasks.service";
+import { TaskMemberModel } from "../../models/task-member-model";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -8,14 +11,12 @@ import { UserModel } from '../../models/user-model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TasksService } from "../../services/tasks/tasks.service";
-import { TaskMemberModel } from "../../models/task-member-model";
 
 @Component({
   selector: 'app-manage-task-members',
   templateUrl: './manage-task-members.component.html',
   styleUrl: './manage-task-members.component.scss',
-  imports: [CommonModule, MatSnackBarModule, MatTableModule, MatButtonModule, UserSearchComponent],
+  imports: [CommonModule, MatSnackBarModule, MatTableModule, MatButtonModule, UserSearchComponent, HeaderComponent]
 })
 
 export class ManageTaskMembersComponent implements OnInit {
