@@ -2,7 +2,7 @@ import { TaskPrioritiesEnum } from "../enums/task-priorities.enum";
 
 export class TasksModel implements ITasks {
     id: number;
-    userId: number;
+    members: number[];
     taskName: string;
     taskDescription: string;
     isActive: boolean;
@@ -11,7 +11,7 @@ export class TasksModel implements ITasks {
 
     constructor(tasks: ITasks) {
         this.id = tasks.id;
-        this.userId = tasks.userId;
+        this.members = tasks.members;
         this.taskName = tasks.taskName;
         this.taskDescription = tasks.taskDescription;
         this.isActive = tasks.isActive;
@@ -22,7 +22,7 @@ export class TasksModel implements ITasks {
 
 interface ITasks {
     id: number;
-    userId: number;
+    members: number[];
     taskName: string;
     taskDescription: string;
     isActive: boolean;
