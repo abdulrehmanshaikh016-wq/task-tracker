@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { TaskFormComponent } from '../../components/task-form/task-form.component';
-import { RoutingService } from '../../services/routing/routing.service';
-import { AuthService } from '../../services/auth/auth.service';
 import { CreateANewTaskService } from '../../services/create-a-new-task/create-a-new-task.service';
+import { TaskFormComponent } from '../../components/task-form/task-form.component';
 import { FormBuilderService } from '../../utils/form-builder/form-builder.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
+import { RoutingService } from '../../services/routing/routing.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-create-a-new-task',
@@ -15,7 +15,7 @@ import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
   imports: [TaskFormComponent, MatSnackBarModule],
 })
 
-export class CreateANewTaskComponent implements OnInit {
+export class CreateANewTaskComponent implements OnInit, OnDestroy {
 
   createTaskForm: FormGroup;
   isCreating: boolean = false;
@@ -32,6 +32,10 @@ export class CreateANewTaskComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnDestroy(): void {
+    this.isCreating = false;
+  }
+
   async handleCreateTask(form: FormGroup) {
     const authUserId = this._authService.getLoggedInUserId();
 
@@ -43,8 +47,11 @@ export class CreateANewTaskComponent implements OnInit {
     this.isCreating = true;
     const payload = this._createTaskService.createPayloadForNewTask(form, authUserId);
     const success = await this._createTaskService.createANewTask(payload);
-    this.isCreating = false;
 
-    if (success) this._routingService.goToTasksPage();
+    if (success) {
+      this._routingService.goToTasksPage();
+    } else {
+      this.isCreating = false;
+    }
   }
 }
