@@ -36,4 +36,9 @@ export class RoutingService {
     const editTaskRouteWithTaskId = RoutesEnum.EditTask.replace(':taskid', taskId.toString());
     this._router.navigateByUrl(editTaskRouteWithTaskId);
   }
+
+  goToManageTaskMembers(taskId: number) {
+    const manageTaskMembersRouteWithTaskId = RoutesEnum.ManageTaskMembers.replace(':taskid', taskId.toString());
+    this._router.navigateByUrl(manageTaskMembersRouteWithTaskId);
+  }
 }

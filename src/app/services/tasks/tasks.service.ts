@@ -1,8 +1,9 @@
+import { ManageTaskMembersModel } from '../../models/manage-task-members-model';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { LocalStorageKeysEnum } from '../../keys/local-storage-keys.enum';
-import { MockTasksList } from '../../../test/mocks/mock-tasks';
 import { TasksApiRoutes } from '../../api/tasks-api-routes';
 import { TasksModel } from '../../models/tasks-model';
+import { UserModel } from '../../models/user-model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environment';
 import { Injectable } from '@angular/core';
@@ -24,10 +25,7 @@ export class TasksService {
 
     // Return mock tasks only if undefined or null
     if (storedTasks === null || storedTasks === undefined) {
-      MockTasksList.forEach(element => {
-        element.userId = authUserId;
-      });
-      return MockTasksList;
+      return [];
     }
 
     // If empty array (or any valid array), just return as is
@@ -43,13 +41,13 @@ export class TasksService {
 
       // If API succeeds, remove from local storage if it exists
       let localTasks = this._localStorageService.getItem<TasksModel[]>(LocalStorageKeysEnum.TasksList) ?? [];
-      localTasks = localTasks.filter(task => task.id !== taskId && task.userId === authUserId);
+      localTasks = localTasks.filter(task => task.id !== taskId && task.members.includes(authUserId));
       this.setNewTasksInLocalStorage(localTasks);
 
       return localTasks; // updated list
     } catch (error) {
       // Remove from local storage
-      const newUpdatedList = currentTasksList.filter(task => task.id !== taskId && task.userId === authUserId);
+      const newUpdatedList = currentTasksList.filter(task => task.id !== taskId && task.members.includes(authUserId));
       this._localStorageService.setItem(LocalStorageKeysEnum.TasksList, newUpdatedList);
 
       return newUpdatedList; // return updated list anyway
@@ -68,7 +66,7 @@ export class TasksService {
       const tasks = await firstValueFrom(getAllTasksApiCall);
 
       // Filter out deleted tasks
-      return tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
+      return tasks.filter(task => task.isDeleted === false && task.members.includes(authUserId));
     } catch (error) {
       // console.error('Could not get all tasks', error);
 
@@ -76,7 +74,7 @@ export class TasksService {
       const tasks = this.getTasksFromLocalStorageOrStaticMockTasks(authUserId);
 
       // Also filter out deleted tasks here
-      return tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
+      return tasks.filter(task => task.isDeleted === false && task.members.includes(authUserId));
     }
   }
 
@@ -86,11 +84,33 @@ export class TasksService {
     const tasks = this.getTasksFromLocalStorageOrStaticMockTasks(authUserId);
 
     // Filter out deleted tasks
-    const activeTasks = tasks.filter(task => task.isDeleted === false && task.userId === authUserId);
+    const activeTasks = tasks.filter(task => task.isDeleted === false && task.members.includes(authUserId));
 
     // Find task by ID
     const task = activeTasks.find(t => t.id === taskId) ?? null;
 
     return task;
+  }
+
+  private _getTasksFromLocalStorage(): TasksModel[] | null {
+    return this._localStorageService.getItem<TasksModel[]>(LocalStorageKeysEnum.TasksList);
+  }
+
+  async getMembersByTaskId(taskId: number, users: UserModel[]): Promise<ManageTaskMembersModel | null> {
+    try {
+      const tasksFromStorage = this._getTasksFromLocalStorage();
+      debugger;
+      if (!tasksFromStorage) return null;
+
+      const task = tasksFromStorage.find((t) => t.id === taskId);
+      if (!task) return null;
+
+      // Find user objects whose IDs are in the task.members array
+      const members = users.filter(user => task.members.includes(user.id));
+
+      return new ManageTaskMembersModel({ task, members });
+    } catch (error) {
+      return null;
+    }
   }
 }

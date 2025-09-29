@@ -39,7 +39,7 @@ export class CreateANewTaskService {
       
       const newTask = new TasksModel({
         id: newIndexForNewTask,
-        userId: createANewTaskPayload.userId,
+        members: [createANewTaskPayload.userId],
         taskName: createANewTaskPayload.taskName,
         taskDescription: createANewTaskPayload.taskDescription,
         taskPriority: createANewTaskPayload.taskPriority,

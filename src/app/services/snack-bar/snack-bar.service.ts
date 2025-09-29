@@ -23,8 +23,16 @@ export class SnackBarService {
   showInvalidCredentials() {
     this.showSnackBar('Your username or password is incorrect', 'Close');
   }
+  
+  showMessageForNoResolvedDataFound() {
+    this.showSnackBar('Could not find the resolved data');
+  }
 
   showMessageForTaskNotFound() {
     this.showSnackBar('Could not find the task you want to edit', 'Close');
+  }
+
+  showMessageForMembersNotFound() {
+    this.showSnackBar('Could not find the members for the task', 'Close');
   }
 }
