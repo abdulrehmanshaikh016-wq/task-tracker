@@ -1,0 +1,19 @@
+<mat-form-field class="full-width" appearance="outline">
+  <mat-label>Search for a member</mat-label>
+  <span matPrefix>
+    <mat-icon class="search-icon">search</mat-icon>
+  </span>
+  <input
+    type="text"
+    matInput
+    placeholder="Search for members to add to task"
+    [formControl]="userCtrl"
+    [matAutocomplete]="auto"
+    autocomplete="off"
+  >
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
+    <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
+      {{ user.username }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
