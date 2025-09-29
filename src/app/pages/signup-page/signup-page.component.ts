@@ -1,4 +1,5 @@
 import { SignupFormComponent } from "../../components/signup-form/signup-form.component";
+import { HeaderComponent } from "../../components/header/header.component";
 import { RoutingService } from "../../services/routing/routing.service";
 import { Component } from '@angular/core';
 
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
   styleUrl: './signup-page.component.scss',
-  imports: [SignupFormComponent]
+  imports: [SignupFormComponent, HeaderComponent]
 })
 
 export class SignupPageComponent {

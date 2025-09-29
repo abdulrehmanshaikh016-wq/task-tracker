@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormBuilderService } from '../../utils/form-builder/form-builder.service';
 import { CreateANewTaskService } from '../../services/create-a-new-task/create-a-new-task.service';
-import { RoutingService } from '../../services/routing/routing.service';
-import { TasksModel } from '../../models/tasks-model';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilderService } from '../../utils/form-builder/form-builder.service';
 import { TaskFormComponent } from '../../components/task-form/task-form.component';
 import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
+import { HeaderComponent } from "../../components/header/header.component";
+import { RoutingService } from '../../services/routing/routing.service';
+import { TasksModel } from '../../models/tasks-model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-task-page',
   templateUrl: './edit-task-page.component.html',
   styleUrl: './edit-task-page.component.scss',
-  imports: [TaskFormComponent]
+  imports: [TaskFormComponent, HeaderComponent]
 })
 
 export class EditTaskPageComponent implements OnInit {

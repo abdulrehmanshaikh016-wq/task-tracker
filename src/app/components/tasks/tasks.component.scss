@@ -5,6 +5,8 @@
 
 .tasks-header-container {
   display: flex;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   align-items: center;
   justify-content: space-between;
 }
@@ -15,7 +17,7 @@
 }
 
 .add-task-button {
-  margin-bottom: 2rem;
+  width: 10%;
 }
 
 .tasks-table-grid {

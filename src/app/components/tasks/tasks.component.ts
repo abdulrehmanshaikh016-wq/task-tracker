@@ -1,6 +1,7 @@
 import { RoutingService } from '../../services/routing/routing.service';
 import { TasksService } from '../../services/tasks/tasks.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { HeaderComponent } from "../header/header.component";
 import { TasksModel } from '../../models/tasks-model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +11,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
-  imports: [CommonModule]
+  imports: [CommonModule, HeaderComponent]
 })
 
 export class TasksComponent implements OnInit {
@@ -78,23 +79,30 @@ export class TasksComponent implements OnInit {
   }
 
   toggleTimer(taskId: number) {
-    if (this.timerIntervals[taskId]) {
-      // Stop timer
-      clearInterval(this.timerIntervals[taskId]);
-      this.timerIntervals[taskId] = null;
-      this._saveElapsedTime(taskId);
-    } else {
-      // Start timer
-      this.timerIntervals[taskId] = setInterval(() => {
-        const task = this.tasks.find(t => t.id === taskId);
-        if (task) {
-          task.elapsedTime = (task.elapsedTime || 0) + 1;
-          this._saveElapsedTime(taskId);
-        }
-      }, 1000);
-    }
-  }
+    // Stop all other timers
+    Object.keys(this.timerIntervals).forEach(id => {
+      const numericId = Number(id);
+      if (this.timerIntervals[numericId]) {
+        clearInterval(this.timerIntervals[numericId]);
+        this.timerIntervals[numericId] = null;
+      }
+    });
   
+    // If the selected timer was already running, just stop it
+    if (this.isTimerRunning(taskId)) {
+      return;
+    }
+  
+    // Start the selected timer
+    this.timerIntervals[taskId] = setInterval(() => {
+      const task = this.tasks.find(t => t.id === taskId);
+      if (task) {
+        task.elapsedTime = (task.elapsedTime || 0) + 1;
+        this._saveElapsedTime(taskId);
+      }
+    }, 1000);
+  }
+
   getTimerDisplay(taskId: number): string {
     const task = this.tasks.find(t => t.id === taskId);
     const seconds = task?.elapsedTime || 0;

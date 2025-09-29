@@ -5,6 +5,7 @@ import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import { LoginService } from '../../services/login/login.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HeaderComponent } from '../header/header.component';
 import { LoginModel } from '../../models/login-model';
 import { LoginForm } from '../../forms/login-form';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule]
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule, HeaderComponent]
 })
 
 export class LoginComponent implements OnInit {

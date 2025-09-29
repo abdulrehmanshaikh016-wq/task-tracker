@@ -1,6 +1,6 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="login-form-container">
-  <h2 class="login-header">Login</h2>
+<app-header title="Login" />
 
+<form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="login-form-container">
   <!-- Hidden username for password managers (optional but recommended) -->
   <input type="text" name="username" autocomplete="username" class="hidden-input-field" tabindex="-1" title="username" />
 
