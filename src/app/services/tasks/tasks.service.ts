@@ -99,7 +99,6 @@ export class TasksService {
   async getMembersByTaskId(taskId: number, users: UserModel[]): Promise<ManageTaskMembersModel | null> {
     try {
       const tasksFromStorage = this._getTasksFromLocalStorage();
-      debugger;
       if (!tasksFromStorage) return null;
 
       const task = tasksFromStorage.find((t) => t.id === taskId);
@@ -108,9 +107,31 @@ export class TasksService {
       // Find user objects whose IDs are in the task.members array
       const members = users.filter(user => task.members.includes(user.id));
 
-      return new ManageTaskMembersModel({ task, members });
+      return new ManageTaskMembersModel({ task, members, allUsersFromStorage: users });
     } catch (error) {
       return null;
     }
+  }
+
+  removeMemberFromTask(userId: number, taskId: number | undefined) {
+    const tasksFromStorage = this._getTasksFromLocalStorage();
+    if (!tasksFromStorage) return null;
+
+    const task = tasksFromStorage.find((t) => t.id === taskId);
+    if (!task) return null;
+
+    // Remove the userId from the members array
+    task.members = task.members.filter(id => id !== userId);
+
+    // Save the updated tasks array back to local storage
+    this.setNewTasksInLocalStorage(tasksFromStorage);
+
+    return task;
+  }
+
+  addANewMemberInTaskLocalStorage(updatedTask: TasksModel) {
+    const tasksFromStorage = this._getTasksFromLocalStorage() ?? [];
+    const updatedTasks = tasksFromStorage.map(t => t.id === updatedTask.id ? updatedTask : t);
+    this.setNewTasksInLocalStorage(updatedTasks);
   }
 }

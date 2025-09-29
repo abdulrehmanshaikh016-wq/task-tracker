@@ -15,11 +15,11 @@
         <th>No.</th>
         <th>Task Name</th>
         <th>Description</th>
-        <th>Members</th>
         <th>Priority</th>
-        <th>Active</th>
+        <!-- <th>Active</th> -->
         <th>Delete Task</th>
         <th>Edit Task</th>
+        <th>Members</th>
       </tr>
     </thead>
 
@@ -28,11 +28,7 @@
         <td>{{ i + 1 }}</td>
         <td>{{ task.taskName }}</td>
         <td>{{ task.taskDescription }}</td>
-        <td>
-          <i (click)="editTaskMemebers(task.id)" class="fas fa-edit edit-tasks-icon"></i>
-          {{ task.members.length }}
-        </td>
-
+        
         <!-- Priority with color coding -->
         <td
           [class]="
@@ -44,10 +40,10 @@
         >{{ task.taskPriority }}</td>
 
         <!-- isActive as icon -->
-        <td>
+        <!-- <td>
           <i *ngIf="task.isActive" class="fas fa-check-circle is-active-green"></i>
           <i *ngIf="!task.isActive" class="fas fa-times-circle is-active-red"></i>
-        </td>
+        </td> -->
 
         <!-- isDeleted as icon -->
         <td>
@@ -56,6 +52,12 @@
 
         <td>
           <i (click)="goToEditTaskPage(task.id)" class="fas fa-edit edit-tasks-icon"></i>
+        </td>
+
+        <!-- Edit icon to modify members -->
+        <td>
+          <i (click)="editTaskMemebers(task.id)" class="fas fa-edit edit-tasks-icon"></i>
+          {{ task.members.length }}
         </td>
       </tr>
     </tbody>
