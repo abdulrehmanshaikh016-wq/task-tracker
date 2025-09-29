@@ -15,6 +15,7 @@
         <th>No.</th>
         <th>Task Name</th>
         <th>Description</th>
+        <th>Members</th>
         <th>Priority</th>
         <th>Active</th>
         <th>Delete Task</th>
@@ -27,7 +28,12 @@
         <td>{{ i + 1 }}</td>
         <td>{{ task.taskName }}</td>
         <td>{{ task.taskDescription }}</td>
+        <td>
+          <i (click)="editTaskMemebers(task.id)" class="fas fa-edit edit-tasks-icon"></i>
+          {{ task.members.length }}
+        </td>
 
+        <!-- Priority with color coding -->
         <td
           [class]="
             task.taskPriority.toLowerCase() === 'high' ? 'high-priority'
@@ -56,6 +62,6 @@
   </table>
   }
   @else {
-    <h1 style="text-align: center;">No Tasks found</h1>
+    <h1 class="no-tasks-header">No Tasks found</h1>
   }
 </div>

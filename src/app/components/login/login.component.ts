@@ -73,12 +73,11 @@ export class LoginComponent implements OnInit {
     
     if (isAuthenticated) {
       // Redirect to dashboard or home page
-      this._routingService.goToTasksPage();  
+      this._routingService.goToTasksPage();
     } else {
       this._snackBarService.showInvalidCredentials();
+      this._showUserIsLoggingInLoader(false);
     }
-
-    this._showUserIsLoggingInLoader(false);
   }
 
   private _showUserIsLoggingInLoader(show: boolean): void {

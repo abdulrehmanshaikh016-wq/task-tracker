@@ -75,4 +75,8 @@ export class TasksComponent implements OnInit {
   goToEditTaskPage(taskId: number) {
     this._routingService.goToEditTaskPage(taskId);
   }
+
+  editTaskMemebers(taskId: number) {
+    this._routingService.goToManageTaskMembers(taskId);
+  }
 }
