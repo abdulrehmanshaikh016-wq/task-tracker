@@ -86,3 +86,21 @@
 .no-tasks-header {
   text-align: center;
 }
+
+.timer-btn {
+  padding: 8px;
+  border-radius: 16px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  margin-right: 8px;
+  font-size: 13px;
+}
+.timer-btn:hover {
+  background: #1565c0;
+}
+.timer-display {
+  font-family: monospace;
+  font-size: 14px;
+}

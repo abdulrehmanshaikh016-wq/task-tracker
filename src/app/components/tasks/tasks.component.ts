@@ -15,16 +15,9 @@ import { CommonModule } from '@angular/common';
 
 export class TasksComponent implements OnInit {
 
-  columns = [
-    { field: 'id', header: 'ID' },
-    { field: 'taskName', header: 'Task Name' },
-    { field: 'taskDescription', header: 'Description' },
-    { field: 'isActive', header: 'Active' },
-    { field: 'isDeleted', header: 'Deleted' },
-    { field: 'taskPriority', header: 'Priority' }
-  ];
-
   tasks: TasksModel[] = [];
+  timerIntervals: { [taskId: number]: any } = {};
+  timerValues: { [taskId: number]: number } = {};
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -78,5 +71,51 @@ export class TasksComponent implements OnInit {
 
   editTaskMemebers(taskId: number) {
     this._routingService.goToManageTaskMembers(taskId);
+  }
+
+  isTimerRunning(taskId: number): boolean {
+    return !!this.timerIntervals[taskId];
+  }
+
+  toggleTimer(taskId: number) {
+    if (this.timerIntervals[taskId]) {
+      // Stop timer
+      clearInterval(this.timerIntervals[taskId]);
+      this.timerIntervals[taskId] = null;
+      this._saveElapsedTime(taskId);
+    } else {
+      // Start timer
+      this.timerIntervals[taskId] = setInterval(() => {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (task) {
+          task.elapsedTime = (task.elapsedTime || 0) + 1;
+          this._saveElapsedTime(taskId);
+        }
+      }, 1000);
+    }
+  }
+  
+  getTimerDisplay(taskId: number): string {
+    const task = this.tasks.find(t => t.id === taskId);
+    const seconds = task?.elapsedTime || 0;
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+  
+  getRemainingTimeDisplay(taskId: number): string {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return '00:00:00';
+    const remaining = Math.max((task.taskDuration || 0) * 3600 - (task.elapsedTime || 0), 0);
+    const h = Math.floor(remaining / 3600);
+    const m = Math.floor((remaining % 3600) / 60);
+    const s = remaining % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+  
+  private _saveElapsedTime(taskId: number) {
+    // Save the updated tasks array to local storage
+    this._tasksService.setNewTasksInLocalStorage(this.tasks);
   }
 }

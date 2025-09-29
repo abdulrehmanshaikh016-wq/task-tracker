@@ -9,6 +9,7 @@ export class TasksModel implements ITasks {
     isDeleted: boolean;
     taskPriority: TaskPrioritiesEnum;
     taskDuration: number;
+    elapsedTime: number;
 
     constructor(tasks: ITasks) {
         this.id = tasks.id;
@@ -19,6 +20,7 @@ export class TasksModel implements ITasks {
         this.isDeleted = tasks.isDeleted;
         this.taskPriority = tasks.taskPriority;
         this.taskDuration = tasks.taskDuration;
+        this.elapsedTime = tasks.elapsedTime;
     }
 };
 
@@ -31,4 +33,5 @@ interface ITasks {
     isDeleted: boolean;
     taskPriority: TaskPrioritiesEnum;
     taskDuration: number;
+    elapsedTime: number;
 }

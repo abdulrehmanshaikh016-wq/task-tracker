@@ -46,7 +46,8 @@ export class CreateANewTaskService {
         taskPriority: createANewTaskPayload.taskPriority,
         isActive: true,
         isDeleted: false,
-        taskDuration: createANewTaskPayload.taskDuration
+        taskDuration: createANewTaskPayload.taskDuration,
+        elapsedTime: 0
       });
 
       currentTasksInTheSystem.push(newTask);

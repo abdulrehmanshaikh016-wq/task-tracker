@@ -21,6 +21,9 @@
         <th>Delete Task</th>
         <th>Edit Task</th>
         <th>Members</th>
+        <th>Elapsed Time</th>
+        <th>Remaining Time</th>
+        <th>Start Timer</th>
       </tr>
     </thead>
 
@@ -61,6 +64,15 @@
         <td>
           <i (click)="editTaskMemebers(task.id)" class="fas fa-edit edit-tasks-icon"></i>
           {{ task.members.length }}
+        </td>
+
+        <td>{{ getTimerDisplay(task.id) }}</td>
+        <td>{{ getRemainingTimeDisplay(task.id) }}</td>
+        <td>
+          <button (click)="toggleTimer(task.id)" class="timer-btn" title="Start/Pause Timer">
+            <i class="fas" [ngClass]="isTimerRunning(task.id) ? 'fa-pause' : 'fa-play'"></i>
+          </button>
+          {{ isTimerRunning(task.id) ? 'Pause' : 'Start' }}
         </td>
       </tr>
     </tbody>
