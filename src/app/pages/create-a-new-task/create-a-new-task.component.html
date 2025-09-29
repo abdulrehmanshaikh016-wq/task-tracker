@@ -2,6 +2,7 @@
 
 <div class="create-a-new-task-container">
   <app-task-form
+    [isEditMode]="false"
     [taskForm]="createTaskForm"
     [isSubmitting]="isCreating"
     submitButtonText="Add Task"

@@ -4,6 +4,7 @@ import { TaskFormComponent } from '../../components/task-form/task-form.componen
 import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
 import { HeaderComponent } from "../../components/header/header.component";
 import { RoutingService } from '../../services/routing/routing.service';
+import { TaskFormGroup } from '../../forms/create-a-new-task-form';
 import { TasksModel } from '../../models/tasks-model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +19,7 @@ import { FormGroup } from '@angular/forms';
 
 export class EditTaskPageComponent implements OnInit {
 
-  editTaskForm: FormGroup;
+  editTaskForm: FormGroup<TaskFormGroup>;
   isUpdating: boolean = false;
   taskId!: number;
 
@@ -43,7 +44,8 @@ export class EditTaskPageComponent implements OnInit {
     this.editTaskForm.patchValue({
       taskName: task.taskName,
       taskDescription: task.taskDescription,
-      taskPriority: task.taskPriority
+      taskPriority: task.taskPriority,
+      taskDuration: task.taskDuration,
     });
   }
 

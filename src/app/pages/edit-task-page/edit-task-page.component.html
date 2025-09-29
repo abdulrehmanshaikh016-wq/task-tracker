@@ -3,6 +3,7 @@
 <div class="edit-task-container">
 
   <app-task-form
+    [isEditMode]="true"
     [taskForm]="editTaskForm"
     [isSubmitting]="isUpdating"
     submitButtonText="Update Task"
