@@ -1,3 +1,4 @@
+import { ManageTaskMembersRoute } from "./manage-task-members.route";
 import { CreateANewTaskRoute } from "./create-a-new-task.route";
 import { authGuard } from "../guards/auth/auth.guard";
 import { EditTaskRoute } from "./edit-task.route";
@@ -10,6 +11,7 @@ export const AuthenticatedRoutes: Route = {
     children: [
         TasksRoute,
         CreateANewTaskRoute,
-        EditTaskRoute
+        EditTaskRoute,
+        ManageTaskMembersRoute
     ]
 };
