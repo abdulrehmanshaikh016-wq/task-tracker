@@ -1,0 +1,82 @@
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 350px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.card-header h3 {
+  margin: 0;
+}
+.card-header a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #3b82f6;
+}
+
+.view-all-tasks-link {
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.view-all-tasks-link:hover {
+  text-decoration: underline;
+}
+
+/* Item row */
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Info */
+.item-info {
+  display: flex;
+  justify-content: space-between;
+}
+.item-title {
+  font-weight: 600;
+}
+.item-subtitle {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+/* Progress bar */
+.progress-container {
+  background: #e5e7eb;
+  border-radius: 8px;
+  height: 8px;
+  margin: 6px 0;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  min-width: 5px;
+  border-radius: 8px;
+  background: #3b82f6;
+}
+
+/* Stats */
+.item-stats {
+  display: flex;
+  justify-content: flex-end;
+}
+.positive {
+  color: green;
+}
+.negative {
+  color: red;
+}
+.neutral {
+    color: orange;
+}

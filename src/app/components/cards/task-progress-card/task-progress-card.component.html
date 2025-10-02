@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-header">
+      <h3>Task Progress</h3>
+      <div (click)="goToTasks()" class="view-all-tasks-link">View All</div>
+    </div>
+
+    @if (tasks.length > 0) {
+        <div class="item" *ngFor="let task of tasks">
+            <div class="item-info">
+                <div class="item-title">{{ task.taskName }}</div>
+                <div class="item-subtitle">{{ task.taskPriority }}</div>
+            </div>
+            
+            <div class="progress-container">
+                @if (task.progress > 0) {
+                    <div class="progress-bar" [style.width.%]="task.progress"></div>
+                }
+            </div>
+
+            <div class="item-stats">
+                @if (task.elapsedTime === 0) {
+                    <span>Not Started</span>
+                }
+                @else {
+                    <span class="change"
+                        [ngClass]="{
+                            'positive': task.progress > 60,
+                            'negative': task.progress < 30,
+                            'neutral': task.progress >= 30 && task.progress <= 60
+                        }">
+                        {{ task.progress }}%
+                    </span>   
+                }
+            </div>
+        </div>
+    }
+    @else {
+        <div class="item"> No Tasks Found.</div>
+    }
+</div>
