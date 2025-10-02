@@ -29,7 +29,7 @@ export class TasksService {
     }
 
     // If empty array (or any valid array), just return as is
-    return storedTasks;
+    return storedTasks.map((t) => new TasksModel(t));
   }
 
   async deleteTask(taskId: number, currentTasksList: TasksModel[], authUserId: number): Promise<TasksModel[]> {

@@ -8,8 +8,9 @@ export class TasksModel implements ITasks {
     isActive: boolean;
     isDeleted: boolean;
     taskPriority: TaskPrioritiesEnum;
-    taskDuration: number;
-    elapsedTime: number;
+    taskDuration!: number; // in hours
+    elapsedTime: number = 0; // in seconds
+    timerStart?: number | null; // timestamp when timer started
 
     constructor(tasks: ITasks) {
         this.id = tasks.id;
@@ -21,6 +22,21 @@ export class TasksModel implements ITasks {
         this.taskPriority = tasks.taskPriority;
         this.taskDuration = tasks.taskDuration;
         this.elapsedTime = tasks.elapsedTime;
+        this.timerStart = tasks.timerStart ?? null;
+    }
+
+    get progress(): number {
+        if (!this.taskDuration || this.taskDuration <= 0) return 0;
+
+        const totalSeconds = this.taskDuration * 3600;
+        let currentElapsed = this.elapsedTime;
+
+        // Add ongoing time if timer is running
+        if (this.timerStart) {
+            currentElapsed += Math.floor((Date.now() - this.timerStart) / 1000);
+        }
+
+        return Math.min(100, Math.round((currentElapsed / totalSeconds) * 100));
     }
 };
 
@@ -34,4 +50,5 @@ interface ITasks {
     taskPriority: TaskPrioritiesEnum;
     taskDuration: number;
     elapsedTime: number;
+    timerStart?: number | null;
 }
