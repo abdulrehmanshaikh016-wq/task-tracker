@@ -1,0 +1,16 @@
+@if (activeTask) {
+    @if (showTimer) {
+        <div class="toast-container">
+            <div>
+                {{ activeTask.taskName }} - {{ getTimerDisplay(activeTask) }}
+                <button (click)="toggleTimerVisibility()" class="hide-btn">✖</button>
+            </div>
+        </div>
+    }
+    @else {
+        <!-- Optional: Show button to bring it back -->
+        <button (click)="toggleTimerVisibility()" class="show-timer-btn">
+            Show Timer
+        </button>
+    }
+}

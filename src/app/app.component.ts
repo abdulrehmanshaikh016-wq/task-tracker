@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { TimerToastComponent } from "./components/timer-toast/timer-toast.component";
 import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  imports: [RouterOutlet, TimerToastComponent],
 })
 
 export class AppComponent {
-  title = 'task-tracker';
-
 }
