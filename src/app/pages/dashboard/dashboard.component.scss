@@ -47,10 +47,8 @@
 
 /** Cards */
 .dashboard-cards-container {
+  gap: 1rem;
   display: flex;
   margin-top: 2rem;
   align-items: flex-start;
-}
-.task-progress-card-container {
-  margin-right: 2rem;
 }

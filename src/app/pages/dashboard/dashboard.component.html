@@ -16,7 +16,8 @@
   </div>
 
   <div class="dashboard-cards-container">
-    <app-task-progress-card [tasks]="tasks" class="task-progress-card-container" />
+    <app-task-progress-card [tasks]="tasks"/>
     <app-all-users-card [users]="users" />
+    <app-tasks-per-user-card [users]="users" [tasks]="tasks" />
   </div>
 </div>

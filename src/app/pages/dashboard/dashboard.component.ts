@@ -1,4 +1,5 @@
 import { TaskProgressCardComponent } from "../../components/cards/task-progress-card/task-progress-card.component";
+import { TasksPerUserCardComponent } from "../../components/tasks-per-user-card/tasks-per-user-card.component";
 import { AllUsersCardComponent } from "../../components/cards/all-users-card/all-users-card.component";
 import { RoutingService } from "../../services/routing/routing.service";
 import { AuthService } from "../../services/auth/auth.service";
@@ -9,7 +10,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [TaskProgressCardComponent, AllUsersCardComponent],
+  imports: [TaskProgressCardComponent, AllUsersCardComponent, TasksPerUserCardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
