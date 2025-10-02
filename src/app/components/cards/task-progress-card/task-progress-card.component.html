@@ -1,7 +1,9 @@
 <div class="card">
     <div class="card-header">
-      <h3>Task Progress</h3>
-      <div (click)="goToTasks()" class="view-all-tasks-link">View All</div>
+      <h3 class="tasks-progress-header">Task Progress</h3>
+      <div>
+          <button (click)="goToTasks()" class="view-all-btn">View All Tasks</button>
+        </div>
     </div>
 
     @if (tasks.length > 0) {

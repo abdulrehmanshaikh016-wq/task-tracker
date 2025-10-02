@@ -33,7 +33,7 @@ export class TasksPerUserCardComponent {
   barChartData: ChartData<'bar'> = {
     labels: [],
     datasets: [
-      { data: [], backgroundColor: '#ff7f50', borderRadius: 6 }
+      { data: [], backgroundColor: '#06b6d4', borderRadius: 6 }
     ]
   };
   barChartType: 'bar' = 'bar'; // Type it as a string literal 'bar' instead of generic ChartType
@@ -58,12 +58,12 @@ export class TasksPerUserCardComponent {
 
     // Set backgroundColor per bar: orange for max, gray for others
     this.barChartData.datasets[0].backgroundColor = taskCounts.map(count =>
-      count === maxCount ? '#ff7f50' : '#d3d3d3'
+      count === maxCount ? '#06b6d4' : '#d3d3d3'
     );
 
     // Optional: set border color per bar
     this.barChartData.datasets[0].borderColor = taskCounts.map(count =>
-      count === maxCount ? '#ff4500' : '#a9a9a9'
+      count === maxCount ? '#06b6d4' : '#a9a9a9'
     );
     this.barChartData.datasets[0].borderWidth = 1;
     this.barChartData.datasets[0].borderRadius = 6;

@@ -17,19 +17,16 @@
 .card-header h3 {
   margin: 0;
 }
-.card-header a {
-  font-size: 0.9rem;
-  text-decoration: none;
-  color: #3b82f6;
-}
-
-.view-all-tasks-link {
-  cursor: pointer;
+.tasks-progress-header {
   color: var(--primary);
 }
-
-.view-all-tasks-link:hover {
-  text-decoration: underline;
+.view-all-btn {
+  background: #f3f4f6;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--secondary);
 }
 
 /* Item row */
