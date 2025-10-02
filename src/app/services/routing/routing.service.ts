@@ -12,29 +12,37 @@ export class RoutingService {
     private _router: Router
   ) {}
 
+  goToPage(route: string) {
+    this._router.navigateByUrl(route);
+  }
+
   goToScreenLoader() {
-    this._router.navigateByUrl(RoutesEnum.ScreenLoader);
+    this.goToPage(RoutesEnum.ScreenLoader);
   }
 
   goToLoginPage() {
-    this._router.navigateByUrl(RoutesEnum.Login);
+    this.goToPage(RoutesEnum.Login);
   }
 
   goToSignupPage() {
-    this._router.navigateByUrl(RoutesEnum.Signup);
+    this.goToPage(RoutesEnum.Signup);
+  }
+
+  goToDashboard() {
+    this.goToPage(RoutesEnum.Dashboard);
   }
 
   goToTasksPage() {
-    this._router.navigateByUrl(RoutesEnum.Tasks);
+    this.goToPage(RoutesEnum.Tasks);
   }
 
   goToCreateANewTaskPage() {
-    this._router.navigateByUrl(RoutesEnum.CreateANewTask);
+    this.goToPage(RoutesEnum.CreateANewTask);
   }
 
   goToEditTaskPage(taskId: number) {
     const editTaskRouteWithTaskId = RoutesEnum.EditTask.replace(':taskid', taskId.toString());
-    this._router.navigateByUrl(editTaskRouteWithTaskId);
+    this.goToPage(editTaskRouteWithTaskId);
   }
 
   goToManageTaskMembers(taskId: number) {
