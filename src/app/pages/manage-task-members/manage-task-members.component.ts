@@ -135,7 +135,7 @@ export class ManageTaskMembersComponent implements OnInit {
         ...user,
         showDeleteLoader: false
       });
-      debugger;
+
       // Update the local members array for UI
       this.members = [...this.members, newUserToPushInMembers];
   

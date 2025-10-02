@@ -8,7 +8,14 @@
         <div class="item" *ngFor="let task of tasks">
             <div class="item-info">
                 <div class="item-title">{{ task.taskName }}</div>
-                <div class="item-subtitle">{{ task.taskPriority }}</div>
+                <div class="item-subtitle"
+                    [ngClass]="{
+                        'high-priority': task?.taskPriority?.toLowerCase() === 'high',
+                        'medium-priority': task?.taskPriority?.toLowerCase() === 'medium',
+                        'low-priority': task?.taskPriority?.toLowerCase() === 'low',
+                        'priority-not-found': !task?.taskPriority
+                    }"
+                >{{ task.taskPriority }}</div>
             </div>
             
             <div class="progress-container">

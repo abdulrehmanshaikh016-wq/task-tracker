@@ -11,18 +11,17 @@
     <!-- Users List -->
     @if (users.length > 0) {
         <div class="user-item" *ngFor="let user of users">
-            <img [src]="user.avatar" alt="User" class="avatar">
+            <img [src]="user.profileImage" alt="User" class="avatar">
 
             <div class="user-info">
-                <div class="name">{{ user.name }}</div>
-                <div class="date">{{ user.date }}</div>
+                <div class="name">{{ user.username }}</div>
+                <div class="date">{{ user.createdDate | date}}</div>
             </div>
 
-            <span class="status" [ngClass]="user.status.toLowerCase()">
-                {{ user.status }}
+            @if (isNewUser(user.createdDate)) {}
+            <span class="new-user-status">
+                New
             </span>
-
-            <div class="amount">+${{ user.amount }}</div>
         </div>
     }
     @else {

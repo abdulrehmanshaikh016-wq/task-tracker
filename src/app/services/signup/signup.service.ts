@@ -44,7 +44,9 @@ export class SignupService {
     const newUser = new UserModel({
       id: storedUsers?.length ? storedUsers.length + 1 : 1,
       username: userSignupPayload.username,
-      password: userSignupPayload.password
+      password: userSignupPayload.password,
+      profileImage: userSignupPayload.profileImage,
+      createdDate: new Date()
     });
 
     return newUser;

@@ -18,7 +18,8 @@ export class SignupFormBuilderService {
     return this._formBuilder.group({
       username: new FormControl<string | null>('', Validators.required),
       password: new FormControl<string | null>('', passwordValidator),
-      confirmPassword: new FormControl<string | null>('', passwordValidator)
+      confirmPassword: new FormControl<string | null>('', passwordValidator),
+      profileImage: new FormControl<string | null>(null, Validators.required)
     }, { validators: confirmPasswordValidator });
   }
 }

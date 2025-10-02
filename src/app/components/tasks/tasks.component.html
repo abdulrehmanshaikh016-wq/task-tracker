@@ -4,7 +4,6 @@
 
   <div class="tasks-header-container">
     <button class="form-submit-button add-task-button" (click)="addTask()">Add Task</button>
-    <button (click)="logout()" class="form-submit-button logout-button">Logout</button>
   </div>
 
 
@@ -17,10 +16,10 @@
           <th>Task Name</th>
           <th>Description</th>
           <th>Priority</th>
-          <th>Task Duration</th>
           <!-- <th>Active</th> -->
           <th>Edit Task</th>
           <th>Members</th>
+          <th>Task Duration</th>
           <th>Elapsed Time</th>
           <th>Remaining Time</th>
           <th>Start Timer</th>
@@ -44,8 +43,6 @@
             "
           >{{ task.taskPriority }}</td>
 
-          <td>{{ task.taskDuration }} Hours</td>
-
           <!-- isActive as icon -->
           <!-- <td>
             <i *ngIf="task.isActive" class="fas fa-check-circle is-active-green"></i>
@@ -62,6 +59,7 @@
             {{ task.members.length }}
           </td>
 
+          <td>{{ task.taskDuration }} Hours</td>
           <td>{{ task.elapsedTime | secondsToHhmmss }}</td>
           <td>{{ ((task.taskDuration || 0) * 3600 - task.elapsedTime) | secondsToHhmmss }}</td>
 

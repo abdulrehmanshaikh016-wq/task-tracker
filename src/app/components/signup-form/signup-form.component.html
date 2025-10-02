@@ -29,6 +29,23 @@
         [passwordError]="getConfirmPasswordError(signupConfirmPasswordControl)"
     />
 
+    <div class="profile-image-container">
+        <!-- Profile Picture -->
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+
+        <!-- Preview -->
+        @if (previewUrl) {
+            <div class="profile-preview" >
+                <img [src]="previewUrl" alt="Profile Preview" />
+            </div>
+        }
+        @if ((signupProfileImageControl.dirty || signupProfileImageControl.touched) && signupProfileImageControl.hasError('required')) {
+            <div class="error">
+                <span>Profile Image is required</span>
+            </div>
+        }
+    </div>
+    
     <button type="submit" [disabled]="isSigningUpUser" class="form-submit-button signup-button">
         <span>
             @if (isSigningUpUser) {

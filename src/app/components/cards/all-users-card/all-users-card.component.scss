@@ -57,28 +57,12 @@
 }
 
 /* Status */
-.status {
+.new-user-status {
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.2rem 0.6rem;
   border-radius: 12px;
   margin-right: 10px;
-}
-.status.new {
   background: #dcfce7;
   color: #16a34a;
-}
-.status.cancelled {
-  background: #fee2e2;
-  color: #dc2626;
-}
-.status.completed {
-  background: #e0e7ff;
-  color: #4338ca;
-}
-
-/* Amount */
-.amount {
-  font-weight: 600;
-  color: #111827;
 }

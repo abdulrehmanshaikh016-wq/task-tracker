@@ -19,6 +19,7 @@ export class SignupFormComponent implements OnInit {
 
   isSigningUpUser: boolean = false;
   signupForm: FormGroup<SignupForm>;
+  previewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private _signupFormValidator: SignupFormValidatorService,
@@ -45,6 +46,10 @@ export class SignupFormComponent implements OnInit {
     return this.signupForm.controls.confirmPassword;
   }
 
+  get signupProfileImageControl(): FormControl {
+    return this.signupForm.controls.profileImage;
+  }
+
   getPasswordError(passwordFormControl: FormControl): string | null {
     return this._signupFormValidator.getPasswordError(passwordFormControl);
   }
@@ -64,6 +69,21 @@ export class SignupFormComponent implements OnInit {
   }
 
   private _setupSignupPage(): void {
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;  // for preview
+        this.signupProfileImageControl.setValue(reader.result as string);
+        this.signupProfileImageControl.updateValueAndValidity();
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   async onSignupSubmit() {
@@ -94,6 +114,7 @@ export class SignupFormComponent implements OnInit {
       username: this.signupUsernameControl.value,
       password: this.signupPasswordControl.value,
       confirmPassword: this.signupConfirmPasswordControl.value,
+      profileImage: this.signupProfileImageControl.value
     });
   }
 }

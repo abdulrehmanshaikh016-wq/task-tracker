@@ -1,43 +1,28 @@
+import { UserModel } from '../../../models/user-model';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-all-users-card',
-  imports: [CommonModule],
   templateUrl: './all-users-card.component.html',
-  styleUrl: './all-users-card.component.scss'
+  styleUrl: './all-users-card.component.scss',
+  imports: [CommonModule],
 })
 
 export class AllUsersCardComponent {
 
-  users = [
-    {
-      name: 'Timothy Williams',
-      date: 'Today',
-      status: 'New',
-      amount: 324.99,
-      avatar: 'https://i.pravatar.cc/100?img=1'
-    },
-    {
-      name: 'Glen Wood',
-      date: '2 Days Ago',
-      status: 'New',
-      amount: 200.0,
-      avatar: 'https://i.pravatar.cc/100?img=2'
-    },
-    {
-      name: 'Raymond Johnson',
-      date: '1 Day Ago',
-      status: 'Cancelled',
-      amount: 0.0,
-      avatar: 'https://i.pravatar.cc/100?img=3'
-    },
-    {
-      name: 'Kenneth Henderson',
-      date: '2 Days Ago',
-      status: 'Completed',
-      amount: 840.99,
-      avatar: 'https://i.pravatar.cc/100?img=4'
-    }
-  ];
+  @Input({ required: true }) users: UserModel[] = [];
+
+  isNewUser(createdDate: string | Date): boolean {
+    const created = new Date(createdDate);
+    const now = new Date();
+
+    const diffInMs = now.getTime() - created.getTime();
+    const diffInMinutes = diffInMs / (1000 * 60);
+    const diffInHours = diffInMs / (1000 * 60 * 60);
+
+    // Example rules:
+    if (diffInMinutes <= 60) return true;    // "new" if within 1 hour
+    return false;
+  }
 }

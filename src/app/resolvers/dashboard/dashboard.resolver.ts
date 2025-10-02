@@ -1,14 +1,19 @@
-import { AuthService } from '../../services/auth/auth.service';
+import { DashboardResolverModel } from '../../models/dashboard-resolver-model';
 import { TasksService } from '../../services/tasks/tasks.service';
-import { TasksModel } from '../../models/tasks-model';
+import { UserService } from '../../services/user/user.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 
-export const dashboardResolver: ResolveFn<TasksModel[]> = async (route, state) => {
+export const dashboardResolver: ResolveFn<DashboardResolverModel> = async (route, state) => {
 
+  const userService = inject(UserService);
   const authService = inject(AuthService);
   const tasksService = inject(TasksService);
 
+  const users = userService.getAllUsersFromStorage();
   const authUserId: number | null = authService.getLoggedInUserId();
-  return await tasksService.getAllTasksForUser(authUserId!);
+  const tasks = await tasksService.getAllTasksForUser(authUserId!);
+
+  return new DashboardResolverModel({ tasks, users });
 };

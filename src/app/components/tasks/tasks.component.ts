@@ -53,11 +53,6 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  logout() {
-    this._authService.logout();
-    this._routingService.goToLoginPage();
-  }
-
   addTask() {
     this._routingService.goToCreateANewTaskPage();
   }

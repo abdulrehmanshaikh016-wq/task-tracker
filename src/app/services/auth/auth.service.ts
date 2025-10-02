@@ -22,7 +22,11 @@ export class AuthService {
   }
 
   getLoggedInUserId(): number | null {
-    const loggedInUser = this._localStorageService.getItem<UserModel>(LocalStorageKeysEnum.LoggedInUser);
+    const loggedInUser = this.getAuthUser();
     return loggedInUser ? loggedInUser.id : null;
+  }
+
+  getAuthUser(): UserModel | null {
+    return this._localStorageService.getItem<UserModel>(LocalStorageKeysEnum.LoggedInUser);
   }
 }

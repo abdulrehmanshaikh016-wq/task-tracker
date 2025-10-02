@@ -13,12 +13,36 @@
 .dashboard-title {
   margin: 0;
 }
+
+.profile-and-logout-container {
+  gap: 16px;
+  display: flex;
+}
 .profile-img {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #e5e7eb;
+}
+.logout-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;   /* rounded button */
+  border: none;
+  background: #f44336;   /* red background */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.logout-btn:hover {
+  background: #d32f2f;
+}
+.logout-btn .material-icons {
+  font-size: 20px;
 }
 
 /** Cards */

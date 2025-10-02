@@ -7,6 +7,6 @@ export const DashboardRoute: Route = {
     loadComponent: () => import('../pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
     title: 'Dashboard',
     resolve: {
-        tasks: dashboardResolver
+        dashboardResolverModel: dashboardResolver
     }
 };
