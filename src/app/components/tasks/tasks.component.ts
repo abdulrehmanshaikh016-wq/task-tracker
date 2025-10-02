@@ -1,3 +1,5 @@
+import { SecondsToHhmmssPipe } from '../../pipes/seconds-to-hhmmss/seconds-to-hhmmss.pipe';
+import { TaskTimerService } from '../../services/task-timer/task-timer.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import { TasksService } from '../../services/tasks/tasks.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -11,7 +13,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
-  imports: [CommonModule, HeaderComponent]
+  imports: [CommonModule, HeaderComponent, SecondsToHhmmssPipe]
 })
 
 export class TasksComponent implements OnInit {
@@ -21,6 +23,7 @@ export class TasksComponent implements OnInit {
   timerValues: { [taskId: number]: number } = {};
 
   constructor(
+    private _taskTimerService: TaskTimerService,
     private _activatedRoute: ActivatedRoute,
     private _routingService: RoutingService,
     private _tasksService: TasksService,
@@ -40,8 +43,13 @@ export class TasksComponent implements OnInit {
   }
 
   private _subscribeToActivatedRouteTasksListEvent() {
-    this._activatedRoute.data.subscribe((data) => {
-      this.tasks = data["tasks"] ?? [];
+    this._activatedRoute.data.subscribe(data => {
+      this.tasks = (data['tasks'] ?? []).map((t: any) => new TasksModel(t));
+      this._taskTimerService.setTasks(this.tasks);
+    });
+
+    this._taskTimerService.tasks$.subscribe(tasks => {
+      this.tasks = tasks;
     });
   }
 
@@ -59,9 +67,7 @@ export class TasksComponent implements OnInit {
     if (!authUserId) return;
     const response = await this._tasksService.deleteTask(taskId, this.tasks, authUserId);
 
-    if (!response) {
-      return;
-    }
+    if (!response) return;
 
     this.tasks = response;
   }
@@ -75,55 +81,40 @@ export class TasksComponent implements OnInit {
   }
 
   isTimerRunning(taskId: number): boolean {
-    return !!this.timerIntervals[taskId];
+    const task = this.tasks.find(t => t.id === taskId);
+    return !!task?.timerStart;
   }
 
   toggleTimer(taskId: number) {
-    // Stop all other timers
-    Object.keys(this.timerIntervals).forEach(id => {
-      const numericId = Number(id);
-      if (this.timerIntervals[numericId]) {
-        clearInterval(this.timerIntervals[numericId]);
-        this.timerIntervals[numericId] = null;
-      }
-    });
-  
-    // If the selected timer was already running, just stop it
-    if (this.isTimerRunning(taskId)) {
-      return;
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    if (task.timerStart) {
+      this._taskTimerService.pauseTimer(taskId);
+      // tasks$ subscription will automatically update the table after pause
+    } else {
+      this._taskTimerService.startTimer(taskId);
     }
-  
-    // Start the selected timer
-    this.timerIntervals[taskId] = setInterval(() => {
-      const task = this.tasks.find(t => t.id === taskId);
-      if (task) {
-        task.elapsedTime = (task.elapsedTime || 0) + 1;
-        this._saveElapsedTime(taskId);
-      }
-    }, 1000);
   }
 
-  getTimerDisplay(taskId: number): string {
-    const task = this.tasks.find(t => t.id === taskId);
-    const seconds = task?.elapsedTime || 0;
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = seconds % 60;
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  getTimerDisplay(task: TasksModel) {
+    const elapsed = this._taskTimerService.getElapsedTime(task);
+    const h = Math.floor(elapsed / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
   }
-  
+
   getRemainingTimeDisplay(taskId: number): string {
     const task = this.tasks.find(t => t.id === taskId);
     if (!task) return '00:00:00';
-    const remaining = Math.max((task.taskDuration || 0) * 3600 - (task.elapsedTime || 0), 0);
+    
+    const totalElapsed = this._taskTimerService.getElapsedTime(task);
+    const remaining = Math.max((task.taskDuration || 0) * 3600 - totalElapsed, 0);
+
     const h = Math.floor(remaining / 3600);
     const m = Math.floor((remaining % 3600) / 60);
     const s = remaining % 60;
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  }
-  
-  private _saveElapsedTime(taskId: number) {
-    // Save the updated tasks array to local storage
-    this._tasksService.setNewTasksInLocalStorage(this.tasks);
+    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
   }
 }

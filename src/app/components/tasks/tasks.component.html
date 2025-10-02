@@ -9,75 +9,81 @@
 
 
   @if (tasks && tasks.length > 0) {
-    <!-- Tasks list -->
-  <table class="tasks-table-grid">
-    <thead>
-      <tr>
-        <th>No.</th>
-        <th>Task Name</th>
-        <th>Description</th>
-        <th>Priority</th>
-        <th>Task Duration</th>
-        <!-- <th>Active</th> -->
-        <th>Delete Task</th>
-        <th>Edit Task</th>
-        <th>Members</th>
-        <th>Elapsed Time</th>
-        <th>Remaining Time</th>
-        <th>Start Timer</th>
-      </tr>
-    </thead>
+  <!-- Tasks list -->
+    <table class="tasks-table-grid">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Task Name</th>
+          <th>Description</th>
+          <th>Priority</th>
+          <th>Task Duration</th>
+          <!-- <th>Active</th> -->
+          <th>Edit Task</th>
+          <th>Members</th>
+          <th>Elapsed Time</th>
+          <th>Remaining Time</th>
+          <th>Start Timer</th>
+          <th>Delete Task</th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr *ngFor="let task of tasks; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ task.taskName }}</td>
-        <td>{{ task.taskDescription }}</td>
-        
-        <!-- Priority with color coding -->
-        <td
-          [class]="
-            task.taskPriority.toLowerCase() === 'high' ? 'high-priority'
-            : task?.taskPriority?.toLowerCase() === 'medium' ? 'medium-priority'
-            : task?.taskPriority?.toLowerCase() === 'low' ? 'low-priority'
-            : 'priority-not-found'
-          "
-        >{{ task.taskPriority }}</td>
+      <tbody>
+        <tr *ngFor="let task of tasks; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ task.taskName }}</td>
+          <td>{{ task.taskDescription }}</td>
+          
+          <!-- Priority with color coding -->
+          <td
+            [class]="
+              task.taskPriority.toLowerCase() === 'high' ? 'high-priority'
+              : task?.taskPriority?.toLowerCase() === 'medium' ? 'medium-priority'
+              : task?.taskPriority?.toLowerCase() === 'low' ? 'low-priority'
+              : 'priority-not-found'
+            "
+          >{{ task.taskPriority }}</td>
 
-        <td>{{ task.taskDuration }} Hours</td>
+          <td>{{ task.taskDuration }} Hours</td>
 
-        <!-- isActive as icon -->
-        <!-- <td>
-          <i *ngIf="task.isActive" class="fas fa-check-circle is-active-green"></i>
-          <i *ngIf="!task.isActive" class="fas fa-times-circle is-active-red"></i>
-        </td> -->
+          <!-- isActive as icon -->
+          <!-- <td>
+            <i *ngIf="task.isActive" class="fas fa-check-circle is-active-green"></i>
+            <i *ngIf="!task.isActive" class="fas fa-times-circle is-active-red"></i>
+          </td> -->
 
-        <!-- isDeleted as icon -->
-        <td>
-          <i class="fas fa-trash delete-icon" (click)="deleteTask(task.id)"></i>
-        </td>
+          <td>
+            <i (click)="goToEditTaskPage(task.id)" class="fas fa-edit edit-tasks-icon"></i>
+          </td>
 
-        <td>
-          <i (click)="goToEditTaskPage(task.id)" class="fas fa-edit edit-tasks-icon"></i>
-        </td>
+          <!-- Edit icon to modify members -->
+          <td>
+            <i (click)="editTaskMemebers(task.id)" class="fas fa-edit edit-tasks-icon"></i>
+            {{ task.members.length }}
+          </td>
 
-        <!-- Edit icon to modify members -->
-        <td>
-          <i (click)="editTaskMemebers(task.id)" class="fas fa-edit edit-tasks-icon"></i>
-          {{ task.members.length }}
-        </td>
+          <td>{{ task.elapsedTime | secondsToHhmmss }}</td>
+          <td>{{ ((task.taskDuration || 0) * 3600 - task.elapsedTime) | secondsToHhmmss }}</td>
 
-        <td>{{ getTimerDisplay(task.id) }}</td>
-        <td>{{ getRemainingTimeDisplay(task.id) }}</td>
-        <td>
-          <button (click)="toggleTimer(task.id)" class="timer-btn" title="Start/Pause Timer">
-            <i class="fas" [ngClass]="isTimerRunning(task.id) ? 'fa-pause' : 'fa-play'"></i>
-          </button>
-          {{ isTimerRunning(task.id) ? 'Pause' : 'Start' }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td>
+            <button
+              (click)="toggleTimer(task.id)"
+              class="timer-btn"
+              title="Start/Pause Timer"
+              [disabled]="task.elapsedTime >= task.taskDuration * 3600"
+            >
+              <i class="fas" [ngClass]="isTimerRunning(task.id) ? 'fa-pause' : 'fa-play'"></i>
+            </button>
+            {{ isTimerRunning(task.id) ? 'Pause' : 'Start' }}
+          </td>
+
+          <!-- isDeleted as icon -->
+          <td>
+            <i class="fas fa-trash delete-icon" (click)="deleteTask(task.id)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   }
   @else {
     <h1 class="no-tasks-header">No Tasks found</h1>
