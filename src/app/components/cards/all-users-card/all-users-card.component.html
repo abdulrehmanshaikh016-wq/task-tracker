@@ -1,0 +1,31 @@
+<div class="users-card">
+    <!-- Header -->
+    <div class="users-header">
+        <h3>Recent users</h3>
+
+        <div>
+          <button class="view-all-btn">View All</button>
+        </div>
+    </div>
+
+    <!-- Users List -->
+    @if (users.length > 0) {
+        <div class="user-item" *ngFor="let user of users">
+            <img [src]="user.avatar" alt="User" class="avatar">
+
+            <div class="user-info">
+                <div class="name">{{ user.name }}</div>
+                <div class="date">{{ user.date }}</div>
+            </div>
+
+            <span class="status" [ngClass]="user.status.toLowerCase()">
+                {{ user.status }}
+            </span>
+
+            <div class="amount">+${{ user.amount }}</div>
+        </div>
+    }
+    @else {
+        <div class="user-item">No Users found</div>
+    }
+</div>

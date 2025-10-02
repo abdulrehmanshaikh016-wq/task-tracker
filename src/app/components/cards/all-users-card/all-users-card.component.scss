@@ -1,0 +1,84 @@
+/* Card */
+.users-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Header */
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.users-header h3 {
+  margin: 0;
+}
+.view-all-btn {
+  background: #f3f4f6;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* User Item */
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+.user-item:last-child {
+  border-bottom: none;
+}
+
+/* Avatar */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+/* Info */
+.user-info {
+  flex: 1;
+}
+.name {
+  font-weight: 600;
+}
+.date {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+/* Status */
+.status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  margin-right: 10px;
+}
+.status.new {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status.cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.status.completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+/* Amount */
+.amount {
+  font-weight: 600;
+  color: #111827;
+}
