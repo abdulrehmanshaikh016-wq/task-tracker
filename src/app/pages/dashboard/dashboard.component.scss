@@ -1,0 +1,32 @@
+/* Page background */
+.dashboard-container {
+  display: flex;
+  padding: 2rem;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #f5f6fa; 
+}
+.dashboard-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+.dashboard-title {
+  margin: 0;
+}
+.profile-img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+/** Cards */
+.dashboard-cards-container {
+  display: flex;
+  margin-top: 2rem;
+  align-items: flex-start;
+}
+.task-progress-card-container {
+  margin-right: 2rem;
+}

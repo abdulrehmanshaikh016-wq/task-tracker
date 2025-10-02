@@ -69,12 +69,12 @@ export class CreateANewTaskService {
       const currentTasksInTheSystem = await this._tasksService.getTasksFromLocalStorageOrStaticMockTasks(createANewTaskPayload.userId);
       const taskIndex = currentTasksInTheSystem.findIndex(t => t.id === taskId);
       if (taskIndex !== -1) {
-        currentTasksInTheSystem[taskIndex] = {
+        currentTasksInTheSystem[taskIndex] = new TasksModel({
           ...currentTasksInTheSystem[taskIndex],
           taskName: createANewTaskPayload.taskName,
           taskDescription: createANewTaskPayload.taskDescription,
           taskPriority: createANewTaskPayload.taskPriority
-        };
+        });
         this._tasksService.setNewTasksInLocalStorage(currentTasksInTheSystem);
       }
       return true;

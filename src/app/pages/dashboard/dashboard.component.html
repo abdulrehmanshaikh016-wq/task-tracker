@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="dashboard-header-container">
+    <h1 class="dashboard-title">Dashboard</h1>
+    <img src="https://ui-avatars.com/api/?name=John+Doe&background=0D8ABC&color=fff&rounded=true" 
+     alt="User Profile" 
+     class="profile-img" />
+  </div>
+
+  <div class="dashboard-cards-container">
+    <app-task-progress-card [tasks]="tasks" class="task-progress-card-container" />
+    <app-all-users-card />
+  </div>
+</div>
