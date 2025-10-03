@@ -91,25 +91,4 @@ export class TasksComponent implements OnInit {
       this._taskTimerService.startTimer(taskId);
     }
   }
-
-  getTimerDisplay(task: TasksModel) {
-    const elapsed = this._taskTimerService.getElapsedTime(task);
-    const h = Math.floor(elapsed / 3600);
-    const m = Math.floor((elapsed % 3600) / 60);
-    const s = elapsed % 60;
-    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-  }
-
-  getRemainingTimeDisplay(taskId: number): string {
-    const task = this.tasks.find(t => t.id === taskId);
-    if (!task) return '00:00:00';
-    
-    const totalElapsed = this._taskTimerService.getElapsedTime(task);
-    const remaining = Math.max((task.taskDuration || 0) * 3600 - totalElapsed, 0);
-
-    const h = Math.floor(remaining / 3600);
-    const m = Math.floor((remaining % 3600) / 60);
-    const s = remaining % 60;
-    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-  }
 }

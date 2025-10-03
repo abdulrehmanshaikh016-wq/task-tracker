@@ -1,6 +1,7 @@
 import { TaskProgressCardComponent } from "../../components/cards/task-progress-card/task-progress-card.component";
 import { TasksPerUserCardComponent } from "../../components/tasks-per-user-card/tasks-per-user-card.component";
 import { AllUsersCardComponent } from "../../components/cards/all-users-card/all-users-card.component";
+import { TaskTimerService } from "../../services/task-timer/task-timer.service";
 import { RoutingService } from "../../services/routing/routing.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { TasksModel } from "../../models/tasks-model";
@@ -22,6 +23,7 @@ export class DashboardComponent {
   profileImage: string | null = null;
 
   constructor(
+    private _taskTimerService: TaskTimerService,
     private _activatedRoute: ActivatedRoute,
     private _routingService: RoutingService,
     private _authService: AuthService
@@ -55,6 +57,7 @@ export class DashboardComponent {
   }
 
   logout() {
+    this._taskTimerService.stopAllTimers();
     this._authService.logout();
     this._routingService.goToLoginPage();
   }

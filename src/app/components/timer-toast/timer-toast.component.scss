@@ -1,14 +1,27 @@
 .toast-container {
-    position: fixed;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(51, 51, 51, 0.85); /* slightly transparent */
-    color: white;
-    padding: 10px 20px;
-    border-radius: 6px;
-    z-index: 9999;
+  gap: 1rem;
+  display: flex;
+  color: white;
+  padding: 10px 15px;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary);
 }
+
+.start-icon, .stop-icon, .close-icon, .show-timer-icon {
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+}
+
+.start-icon:hover { color: #4caf50; }   /* green */
+.stop-icon:hover { color: #f44336; }    /* red */
+.close-icon:hover { color: #ff9800; }   /* orange */
+.show-timer-icon:hover { color: #2196f3; } /* blue */
+.task-info {
+  flex: 1;
+}
+
 .hide-btn {
     background: transparent;
     border: none;
@@ -16,13 +29,16 @@
     cursor: pointer;
     font-size: 14px;
 }
+.hide-btn:hover {
+    color: red;
+}
 
 .show-timer-btn {
     position: fixed;
-    top: 10px;
+    top: 8px;
     right: 10px;
     padding: 6px 12px;
-    background: #333;
+    background: var(--primary);
     color: white;
     border-radius: 4px;
     border: none;

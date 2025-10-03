@@ -2,14 +2,28 @@
     @if (showTimer) {
         <div class="toast-container">
             <div>
-                {{ activeTask.taskName }} - {{ getTimerDisplay(activeTask) }}
-                <button (click)="toggleTimerVisibility()" class="hide-btn">✖</button>
+                <!-- Start / Stop icons -->
+                @if (isTimerRunning(activeTask)) {
+                    <i
+                        class="fas fa-pause stop-icon"
+                        (click)="stopTimer(activeTask)"
+                        title="Stop Timer"
+                    ></i>
+                }
+                @else {
+                    <i
+                        class="fas fa-play start-icon"
+                        (click)="startTimer(activeTask)"
+                        title="Start Timer"
+                    ></i>
+                }
+                Task Name: {{ activeTask.taskName }} | Time worked: {{ getTimerDisplay(activeTask) }}
+                <button (click)="closeTimerToast()" class="hide-btn">✖</button>
             </div>
         </div>
     }
     @else {
-        <!-- Optional: Show button to bring it back -->
-        <button (click)="toggleTimerVisibility()" class="show-timer-btn">
+        <button (click)="reopenTimerToast()" class="show-timer-btn">
             Show Timer
         </button>
     }

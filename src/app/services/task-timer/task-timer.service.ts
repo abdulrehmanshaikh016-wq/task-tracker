@@ -69,8 +69,23 @@ export class TaskTimerService {
       const task = this.tasks.find(t => t.id === taskId);
       if (!task || !task.timerStart) return;
 
+      const totalSeconds = (task.taskDuration || 0) * 3600;
+
+      // If task already completed, stop it
+      if (task.elapsedTime >= totalSeconds) {
+        this.pauseTimer(taskId);
+        return;
+      }
+
       // increment elapsedTime by 1 every second
       task.elapsedTime += 1;
+
+      // Stop immediately once completed
+      if (task.elapsedTime >= totalSeconds) {
+        this.pauseTimer(taskId);
+        return;
+      }
+
       this.tasks$.next(this.tasks);
       this._tasksService.setNewTasksInLocalStorage(this.tasks);
     }, 1000);
@@ -85,5 +100,14 @@ export class TaskTimerService {
 
   private saveTasks() {
     this._tasksService.setNewTasksInLocalStorage(this.tasks);
+  }
+
+  stopAllTimers() {
+    this.tasks.forEach(task => {
+      if (task.timerStart) {
+        this.pauseTimer(task.id);
+      }
+    });
+    Object.keys(this.intervals).forEach(id => this.clearInterval(+id));
   }
 }
