@@ -1,20 +1,26 @@
 import { LocalStorageService } from '../services/local-storage/local-storage.service';
+import { TaskTimerService } from '../services/task-timer/task-timer.service';
 import { environment } from '../environment';
 import { inject } from '@angular/core';
 
 export function runVersionCheck(): () => void {
   return () => {
-    console.log('Version check initializer running...');
+  
     const localStorageKey = 'app_version';
     const savedVersion = localStorage.getItem(localStorageKey);
     const currentMajor = parseInt(environment.appVersion.split('.')[0], 10);
 
     const localStorageService = inject(LocalStorageService);
+    const taskTimerService = inject(TaskTimerService);
 
     if (savedVersion) {
       const savedMajor = parseInt(savedVersion.split('.')[0], 10);
       if (currentMajor > savedMajor) {
-        console.log(`Major version bumped: ${savedMajor} → ${currentMajor}. Clearing localStorage.`);
+
+        // Stop all timers in memory
+        taskTimerService.stopAllTimers();
+
+        // Clear localStorage
         localStorageService.clear();
       }
     }
